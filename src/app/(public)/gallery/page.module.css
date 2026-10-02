@@ -1,65 +1,72 @@
 .container {
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 4rem 2rem;
+  padding: var(--spacing-8) var(--container-padding) var(--spacing-24);
 }
 
 .title {
-  font-size: 3rem;
+  font-size: clamp(2.5rem, 5.5vw, 3.8rem);
   font-weight: 800;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-2);
   text-align: center;
-  background: linear-gradient(135deg, #fff 0%, #888 100%);
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .subtitle {
   text-align: center;
-  color: #888;
-  margin-bottom: 3rem;
-  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-12);
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
 }
 
 .empty {
   text-align: center;
-  padding: 4rem;
-  background-color: #111;
-  border-radius: 1rem;
-  color: #888;
+  padding: var(--spacing-16) var(--spacing-8);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-6);
 }
 
 .item {
-  background-color: #111;
-  border-radius: 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  border: 1px solid #222;
-  transition: transform 0.3s ease;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-interface);
 }
 
 .item:hover {
   transform: translateY(-5px);
-  border-color: #444;
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-lg), var(--glow-primary);
 }
 
 .itemTitle {
-  padding: 1rem;
+  padding: var(--spacing-4);
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  border-bottom: 1px solid #222;
+  color: var(--white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .iframeContainer {
   position: relative;
   width: 100%;
   padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  background: #000;
 }
 
 /* Override aspect ratio for instagram */
@@ -73,4 +80,16 @@
   left: 0;
   width: 100%;
   height: 100%;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+
+  .subtitle {
+    margin-bottom: var(--spacing-8);
+  }
 }
