@@ -1,0 +1,59 @@
+@import '../styles/variables.css';
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Typography Scale */
+h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; }
+h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.2; }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.3; }
+p { font-size: 1rem; line-height: 1.6; color: var(--text-secondary); }
+
+/* Common utility classes */
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, var(--electric-blue) 0%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}

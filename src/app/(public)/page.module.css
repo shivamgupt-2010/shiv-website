@@ -1,0 +1,293 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-32);
+  padding-bottom: var(--spacing-32);
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-16) var(--container-padding);
+  overflow: hidden;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(124, 92, 255, 0.15) 0%, rgba(7, 9, 13, 1) 70%);
+  z-index: -1;
+}
+
+.heroContent {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-6);
+}
+
+.heroTitle {
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, var(--white) 0%, var(--mist) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.heroSubtitle {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: var(--text-secondary);
+  max-width: 600px;
+}
+
+.heroActions {
+  display: flex;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btnPrimary {
+  background: linear-gradient(90deg, var(--electric-blue) 0%, var(--violet) 100%);
+  color: var(--white);
+  padding: var(--spacing-3) var(--spacing-8);
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: transform var(--transition-micro), opacity var(--transition-micro);
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.btnSecondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  padding: var(--spacing-3) var(--spacing-8);
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  font-size: 1rem;
+  backdrop-filter: blur(8px);
+  transition: background var(--transition-micro), transform var(--transition-micro);
+}
+
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Section Common */
+.section {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.sectionHeader {
+  margin-bottom: var(--spacing-12);
+  text-align: left;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: var(--spacing-2);
+}
+
+/* Three Worlds Section */
+.worldsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+}
+
+@media (min-width: 768px) {
+  .worldsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.worldCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  transition: transform var(--transition-interface), border-color var(--transition-interface);
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+}
+
+.worldCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.worldCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(77, 163, 255, 0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity var(--transition-interface);
+}
+
+.worldCard:hover::before {
+  opacity: 1;
+}
+
+.worldIcon {
+  color: var(--electric-blue);
+  margin-bottom: var(--spacing-2);
+}
+
+.worldTitle {
+  font-size: 1.5rem;
+  z-index: 1;
+}
+
+.worldDesc {
+  color: var(--text-secondary);
+  flex-grow: 1;
+  z-index: 1;
+}
+
+.worldLink {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--electric-blue);
+  font-weight: 600;
+  font-size: 0.9rem;
+  z-index: 1;
+  margin-top: auto;
+  transition: gap var(--transition-micro);
+}
+
+.worldLink:hover {
+  gap: var(--spacing-3);
+}
+
+/* Featured Products */
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.productCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-interface);
+}
+
+.productCard:hover {
+  transform: translateY(-5px);
+}
+
+.productImage {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background-color: var(--bg-tertiary);
+  position: relative;
+}
+
+.productInfo {
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.productName {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.productPrice {
+  color: var(--text-secondary);
+}
+
+.productAction {
+  margin-top: var(--spacing-4);
+  width: 100%;
+  text-align: center;
+  padding: var(--spacing-2);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  transition: background var(--transition-micro), color var(--transition-micro);
+}
+
+.productAction:hover {
+  background: var(--white);
+  color: var(--obsidian);
+}
+
+/* Reviews / Testimonials */
+.reviewsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-6);
+  margin-top: var(--spacing-8);
+}
+
+.reviewCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.reviewText {
+  font-size: 1.125rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-6);
+  flex-grow: 1;
+}
+
+.reviewAuthor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.reviewProject {
+  margin-top: var(--spacing-2);
+  font-size: 0.8rem;
+  color: var(--electric-blue);
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}

@@ -1,0 +1,251 @@
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: calc(80px + var(--spacing-12)) var(--container-padding) var(--spacing-24);
+  min-height: 100vh;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-8);
+  transition: color var(--transition-micro);
+}
+
+.backLink:hover {
+  color: var(--white);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: var(--spacing-12);
+}
+
+.checkoutLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-12);
+}
+
+@media (min-width: 1024px) {
+  .checkoutLayout {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.formSection h2 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-6);
+  color: var(--white);
+}
+
+.form {
+  background-color: var(--card-bg);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+  width: 100%;
+}
+
+.formGroup label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.formGroup input {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3) var(--spacing-4);
+  color: var(--white);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color var(--transition-micro);
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: var(--electric-blue);
+}
+
+.readOnly {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+@media (min-width: 640px) {
+  .formRow {
+    flex-direction: row;
+  }
+}
+
+.submitBtn {
+  width: 100%;
+  background: linear-gradient(90deg, var(--electric-blue) 0%, var(--violet) 100%);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: var(--spacing-8);
+  cursor: pointer;
+  transition: opacity var(--transition-micro);
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.summarySection {
+  background-color: var(--card-bg);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.summarySection h2 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-6);
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-8);
+  padding-bottom: var(--spacing-8);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemName {
+  font-weight: 500;
+  color: var(--white);
+}
+
+.itemOptions {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.itemPrice {
+  font-weight: 500;
+}
+
+.totals {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-secondary);
+}
+
+.finalTotal {
+  color: var(--white);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--border-color);
+}
+
+.error {
+  color: #ff4a4a;
+  background-color: rgba(255, 74, 74, 0.1);
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-md);
+  margin-top: var(--spacing-6);
+  font-size: 0.875rem;
+}
+
+.successMessage {
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: var(--spacing-16) 0;
+}
+
+.successIcon {
+  color: #00d2ff;
+  margin-bottom: var(--spacing-6);
+}
+
+.successMessage h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-4);
+}
+
+.orderNumberBox {
+  background-color: var(--card-bg);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  margin: var(--spacing-8) 0;
+  font-size: 1.125rem;
+}
+
+.orderNumberBox strong {
+  color: var(--electric-blue);
+  font-family: monospace;
+}
+
+.nextSteps {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-12);
+}
+
+.btnPrimary {
+  display: inline-block;
+  background: var(--white);
+  color: var(--obsidian);
+  padding: var(--spacing-3) var(--spacing-8);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  transition: opacity var(--transition-micro);
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+}

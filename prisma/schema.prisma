@@ -1,0 +1,282 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String   // hashed
+  role      String   @default("ADMIN") // ADMIN, CUSTOMER
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  orders    Order[]
+  wishlist  WishlistItem[]
+}
+
+model Product {
+  id               String           @id @default(cuid())
+  name             String
+  slug             String           @unique
+  description      String
+  shortDescription String
+  price            Float
+  compareAtPrice   Float?
+  sku              String           @unique
+  stock            Int              @default(0)
+  status           String           @default("DRAFT") // DRAFT, ACTIVE, OUT_OF_STOCK, ARCHIVED
+  featured         Boolean          @default(false)
+  isNew            Boolean          @default(false)
+  customizable     Boolean          @default(false)
+  
+  images           ProductImage[]
+  variants         ProductVariant[]
+  categories       Category[]
+  orderItems       OrderItem[]
+  wishlistedBy     WishlistItem[]
+  
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    
+  slug        String    @unique
+  products    Product[]
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  url       String
+  alt       String?
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductVariant {
+  id        String  @id @default(cuid())
+  productId String
+  name      String  // e.g. "Color" or "Size"
+  value     String  // e.g. "Black" or "M"
+  sku       String? @unique
+  price     Float?  // Override base price if set
+  stock     Int     @default(0)
+  
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[]
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  orderNumber     String   @unique
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id])
+  
+  // Guest customer info (also populated for authenticated users as shipping snapshot)
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+  
+  status          String   @default("PENDING") // PENDING, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED, REFUNDED
+  
+  subtotal        Float
+  discount        Float    @default(0)
+  deliveryFee     Float    @default(0)
+  tax             Float    @default(0)
+  total           Float
+  
+  trackingNumber  String?
+  internalNotes   String?
+  
+  items           OrderItem[]
+  payment         Payment?
+  address         Address?
+  couponUsages    CouponUsage[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  variantId String?
+  
+  quantity  Int
+  price     Float
+  options   String? // JSON string for customized options if any
+  
+  order     Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product         @relation(fields: [productId], references: [id])
+  variant   ProductVariant? @relation(fields: [variantId], references: [id])
+}
+
+model Payment {
+  id        String @id @default(cuid())
+  orderId   String @unique
+  method    String
+  status    String @default("PENDING") // PENDING, CONFIRMED, FAILED
+  
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Address {
+  id         String @id @default(cuid())
+  orderId    String @unique
+  line1      String
+  city       String
+  state      String
+  postalCode String
+  country    String
+  
+  order      Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Coupon {
+  id               String   @id @default(cuid())
+  code             String   @unique
+  discountType     String   // PERCENTAGE, FIXED, FREE_DELIVERY
+  discountValue    Float
+  minOrderValue    Float?
+  maxDiscount      Float?
+  startDate        DateTime?
+  expiryDate       DateTime?
+  usageLimit       Int?
+  perCustomerLimit Int?
+  active           Boolean  @default(true)
+  
+  usages           CouponUsage[]
+}
+
+model CouponUsage {
+  id            String @id @default(cuid())
+  couponId      String
+  orderId       String
+  customerEmail String
+  
+  coupon        Coupon @relation(fields: [couponId], references: [id])
+  order         Order  @relation(fields: [orderId], references: [id])
+  
+  @@unique([couponId, orderId])
+}
+
+model PaymentMethod {
+  id              String  @id @default(cuid())
+  name            String  // e.g. "UPI"
+  provider        String  // e.g. "Razorpay" or "Manual"
+  active          Boolean @default(true)
+  displayName     String  
+  description     String?
+  displayOrder    Int     @default(0)
+}
+
+model DeliveryMethod {
+  id                String  @id @default(cuid())
+  name              String
+  description       String?
+  price             Float
+  minOrderValue     Float?
+  estimatedDelivery String? // e.g. "5-8 days"
+  active            Boolean @default(true)
+}
+
+model BusinessPackage {
+  id           String  @id @default(cuid())
+  name         String
+  description  String
+  price        String  // e.g. "₹24,999" or "Custom"
+  features     String  // JSON array of strings
+  cta          String  @default("Get Started")
+  featured     Boolean @default(false)
+  active       Boolean @default(true)
+  displayOrder Int     @default(0)
+}
+
+model BusinessLead {
+  id            String   @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  company       String?
+  projectType   String
+  message       String
+  status        String   @default("NEW") // NEW, CONTACTED, DISCUSSION, PROPOSAL, ACCEPTED, IN_DEVELOPMENT, COMPLETED, LOST
+  notes         String?
+  quotation     Float?
+  projectValue  Float?
+  followUpDate  DateTime?
+  archived      Boolean  @default(false)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model SoftwareProduct {
+  id           String  @id @default(cuid())
+  name         String
+  description  String
+  logo         String?
+  screenshots  String? // JSON array of urls
+  features     String? // JSON array of strings
+  version      String?
+  status       String  @default("AVAILABLE") // COMING_SOON, IN_DEVELOPMENT, AVAILABLE, MAINTENANCE, ARCHIVED
+  downloadLink String?
+  websiteLink  String?
+  releaseNotes String?
+}
+
+model Project {
+  id           String  @id @default(cuid())
+  name         String
+  client       String?
+  category     String
+  description  String
+  features     String? // JSON array of strings
+  images       String? // JSON array of urls
+  technologies String? // JSON array of strings
+  liveUrl      String?
+  caseStudy    String?
+  featured     Boolean @default(false)
+}
+
+model Review {
+  id             String  @id @default(cuid())
+  customerName   String
+  company        String?
+  review         String
+  rating         Int     @default(5)
+  image          String?
+  productProject String? // Name of product or project it's about
+  featured       Boolean @default(false)
+  hidden         Boolean @default(false)
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, productId])
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid())
+  title     String
+  url       String
+  type      String   @default("YOUTUBE") // YOUTUBE, INSTAGRAM
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

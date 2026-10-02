@@ -1,0 +1,76 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  background: linear-gradient(135deg, #fff 0%, #888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  text-align: center;
+  color: #888;
+  margin-bottom: 3rem;
+  font-size: 1.125rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 4rem;
+  background-color: #111;
+  border-radius: 1rem;
+  color: #888;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.item {
+  background-color: #111;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid #222;
+  transition: transform 0.3s ease;
+}
+
+.item:hover {
+  transform: translateY(-5px);
+  border-color: #444;
+}
+
+.itemTitle {
+  padding: 1rem;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-bottom: 1px solid #222;
+}
+
+.iframeContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+/* Override aspect ratio for instagram */
+.item:has(iframe[src*="instagram"]) .iframeContainer {
+  padding-bottom: 100%; /* Square for insta */
+}
+
+.iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

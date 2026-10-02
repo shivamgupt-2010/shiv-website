@@ -1,0 +1,210 @@
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: calc(80px + var(--spacing-12)) var(--container-padding) var(--spacing-24);
+  min-height: 100vh;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: var(--spacing-12);
+}
+
+.emptyCart {
+  text-align: center;
+  padding: var(--spacing-24) 0;
+  color: var(--text-secondary);
+}
+
+.emptyCart p {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-8);
+}
+
+.continueShopping {
+  display: inline-block;
+  background: var(--white);
+  color: var(--obsidian);
+  padding: var(--spacing-3) var(--spacing-8);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  transition: opacity var(--transition-micro);
+}
+
+.continueShopping:hover {
+  opacity: 0.9;
+}
+
+.cartLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-12);
+}
+
+@media (min-width: 1024px) {
+  .cartLayout {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.cartItems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.cartItem {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: var(--spacing-6);
+  padding-bottom: var(--spacing-6);
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .cartItem {
+    grid-template-columns: 100px 2fr 1fr 1fr auto;
+  }
+}
+
+.itemImage {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.itemDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.itemName {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--white);
+}
+
+.itemName:hover {
+  color: var(--electric-blue);
+}
+
+.itemOptions {
+  display: flex;
+  gap: var(--spacing-4);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.itemPrice {
+  color: var(--white);
+  font-weight: 500;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  background-color: var(--card-bg);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+.quantityControls button {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-micro);
+}
+
+.quantityControls button:hover:not(:disabled) {
+  color: var(--white);
+}
+
+.quantityControls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.itemTotal {
+  display: none;
+  font-weight: 600;
+  text-align: right;
+}
+
+@media (min-width: 768px) {
+  .itemTotal {
+    display: block;
+  }
+}
+
+.removeBtn {
+  color: var(--text-secondary);
+  transition: color var(--transition-micro);
+  padding: var(--spacing-2);
+}
+
+.removeBtn:hover {
+  color: #ff4a4a;
+}
+
+.orderSummary {
+  background-color: var(--card-bg);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-xl);
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.orderSummary h2 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-6);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-4);
+  color: var(--text-secondary);
+}
+
+.totalRow {
+  margin-top: var(--spacing-6);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid var(--border-color);
+  color: var(--white);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.checkoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  width: 100%;
+  background: linear-gradient(90deg, var(--electric-blue) 0%, var(--violet) 100%);
+  color: var(--white);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  margin-top: var(--spacing-8);
+  transition: opacity var(--transition-micro);
+}
+
+.checkoutBtn:hover {
+  opacity: 0.9;
+}

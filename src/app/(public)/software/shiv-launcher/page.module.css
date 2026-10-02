@@ -1,0 +1,125 @@
+.container {
+  padding-top: var(--header-height);
+  min-height: 100vh;
+}
+
+.hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-xl) 5%;
+  background: radial-gradient(circle at top, rgba(50,50,50,0.5) 0%, var(--bg-primary) 60%);
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+  display: inline-block;
+}
+
+.title {
+  font-family: var(--font-sora);
+  font-size: 4.5rem;
+  font-weight: 800;
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: var(--accent-primary);
+  margin-bottom: var(--spacing-xl);
+}
+
+.description {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto var(--spacing-2xl);
+  line-height: 1.6;
+}
+
+.cta {
+  display: inline-block;
+  padding: 1.25rem 2.5rem;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-family: var(--font-sora);
+  font-weight: 600;
+  font-size: 1.125rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.cta:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.previewSection {
+  padding: var(--spacing-2xl) 5%;
+  background: #0a0a0a;
+}
+
+.previewContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  aspect-ratio: 16/9;
+  background: #151515;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.featuresGrid {
+  padding: var(--spacing-2xl) 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.featureCard {
+  padding: var(--spacing-xl);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+}
+
+.featureTitle {
+  font-family: var(--font-sora);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+.featureDesc {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+  }
+}
