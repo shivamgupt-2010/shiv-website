@@ -1,5 +1,26 @@
+import type { Metadata } from 'next';
 import db from '@/lib/db';
 import HomeClient from './HomeClient';
+
+export const metadata: Metadata = {
+  title: 'SHIV Store | Official Store & Products — Build. Design. Evolve.',
+  description: 'Welcome to the official SHIV Store. Discover cutting-edge developer apparel, cyberpunk drops, high-performance tech wear, and digital tools created by SHIV.',
+  keywords: [
+    'SHIV store',
+    'SHIV official store',
+    'SHIV brand',
+    'SHIV merch',
+    'SHIV clothing',
+    'buy SHIV',
+    'SHIV apparel',
+    'SHIV streetwear',
+    'SHIV developers',
+    'SHIV online shopping',
+  ],
+  alternates: {
+    canonical: '/',
+  },
+};
 
 export default async function Home() {
   let featuredProducts: { id: string; name: string; slug: string; priceFormatted: string; imageUrl: string | null }[] = [];
