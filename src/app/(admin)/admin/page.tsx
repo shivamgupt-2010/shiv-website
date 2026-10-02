@@ -8,7 +8,8 @@ import { format } from "date-fns";
 export default async function AdminDashboard() {
   const session = await getServerSession(authOptions);
 
-  if (!session || !["ADMIN", "PRODUCT_MANAGER"].includes((session.user as any)?.role)) {
+  const userRole = ((session?.user as any)?.role || '').toUpperCase();
+  if (!session || !["ADMIN", "PRODUCT_MANAGER"].includes(userRole)) {
     redirect("/admin/login");
   }
 
