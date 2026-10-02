@@ -3,23 +3,26 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req) {
-    // Optionally handle additional logic here
-    // e.g. check for admin role
     const token = req.nextauth.token;
-    if (req.nextUrl.pathname.startsWith("/admin") && req.nextUrl.pathname !== "/admin/login") {
-      if (!token) {
-        return NextResponse.redirect(new URL("/admin/login", req.url));
+    if (req.nextUrl.pathname === "/admin/login") {
+      if (token && (token.role === "ADMIN" || token.role === "PRODUCT_MANAGER")) {
+        return NextResponse.redirect(new URL("/admin", req.url));
       }
+      return NextResponse.next();
     }
   },
   {
+    secret: process.env.NEXTAUTH_SECRET || "shiv_commerce_secret_fallback_key_2026_xyz",
     callbacks: {
       authorized: ({ req, token }) => {
-        if (req.nextUrl.pathname.startsWith('/admin') && req.nextUrl.pathname !== "/admin/login") {
-          if (token?.role === "ADMIN") return true;
-          if (token?.role === "PRODUCT_MANAGER") {
+        if (req.nextUrl.pathname === "/admin/login") {
+          return true;
+        }
+        if (req.nextUrl.pathname.startsWith('/admin')) {
+          const role = (token?.role as string)?.toUpperCase();
+          if (role === "ADMIN") return true;
+          if (role === "PRODUCT_MANAGER") {
             const path = req.nextUrl.pathname;
-            // Allow root admin dashboard, products, and maybe profile if it existed
             if (path === '/admin' || path.startsWith('/admin/products')) {
               return true;
             }
