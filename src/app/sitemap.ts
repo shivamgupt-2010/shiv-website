@@ -1,10 +1,11 @@
 import type { MetadataRoute } from 'next';
 import db from '@/lib/db';
+import { getSiteUrl } from '@/lib/siteUrl';
 
 export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://shiv-website.vercel.app';
+  const baseUrl = getSiteUrl();
 
   // 1. Fetch dynamic products from database
   let productEntries: MetadataRoute.Sitemap = [];
