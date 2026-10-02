@@ -1,43 +1,27 @@
-import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export default withAuth(
-  function middleware(req) {
-    const token = req.nextauth.token;
-    if (req.nextUrl.pathname === "/admin/login") {
-      if (token && (token.role === "ADMIN" || token.role === "PRODUCT_MANAGER")) {
-        return NextResponse.redirect(new URL("/admin", req.url));
-      }
-      return NextResponse.next();
+export function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  // If already logged in, redirect /admin/login to /admin
+  if (pathname === "/admin/login") {
+    if (req.cookies.has("admin_token")) {
+      return NextResponse.redirect(new URL("/admin", req.url));
     }
-  },
-  {
-    secret: process.env.NEXTAUTH_SECRET || "shiv_commerce_secret_fallback_key_2026_xyz",
-    callbacks: {
-      authorized: ({ req, token }) => {
-        if (req.nextUrl.pathname === "/admin/login") {
-          return true;
-        }
-        if (req.nextUrl.pathname.startsWith('/admin')) {
-          const role = (token?.role as string)?.toUpperCase();
-          if (role === "ADMIN") return true;
-          if (role === "PRODUCT_MANAGER") {
-            const path = req.nextUrl.pathname;
-            if (path === '/admin' || path.startsWith('/admin/products')) {
-              return true;
-            }
-            return false;
-          }
-          return false;
-        }
-        if (req.nextUrl.pathname.startsWith('/account')) {
-          return !!token;
-        }
-        return true;
-      },
-    },
+    return NextResponse.next();
   }
-);
+
+  // Protect /admin routes
+  if (pathname.startsWith("/admin")) {
+    const hasAdminToken = req.cookies.has("admin_token");
+    if (!hasAdminToken) {
+      return NextResponse.redirect(new URL("/admin/login", req.url));
+    }
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: ["/admin/:path*", "/account/:path*"],
