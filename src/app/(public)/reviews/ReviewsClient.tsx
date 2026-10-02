@@ -40,42 +40,59 @@ export default function ReviewsClient({ initialReviews }: { initialReviews: Revi
   }
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 1.5rem', minHeight: '80vh' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+    <div style={{ maxWidth: 'var(--container-max-width)', margin: '0 auto', padding: 'var(--spacing-8) var(--container-padding) var(--spacing-24)', minHeight: '80vh' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '3rem' }}>
         <div>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>Customer Reviews</h1>
-          <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>See what others are saying about SHIV products and services.</p>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', color: 'var(--cyan)', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
+            COMMUNITY & TESTIMONIALS
+          </span>
+          <h1 style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', fontWeight: 800, background: 'var(--gradient-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1.15 }}>
+            Customer Reviews
+          </h1>
+          <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: '1rem' }}>
+            Hear firsthand from creators and businesses using SHIV.
+          </p>
         </div>
-        <button 
+        <motion.button 
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
           onClick={() => setIsModalOpen(true)}
-          style={{ padding: '0.75rem 1.5rem', backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '0.25rem', fontWeight: 'bold', cursor: 'pointer' }}
+          style={{ padding: '0.85rem 1.6rem', background: 'var(--gradient-primary)', color: '#fff', border: 'none', borderRadius: 'var(--radius-xl)', fontWeight: 600, fontSize: '0.95rem', cursor: 'pointer', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)' }}
         >
           Write a Review
-        </button>
+        </motion.button>
       </div>
 
       {initialReviews.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--text-secondary)' }}>
-          No reviews found. Be the first to leave a review!
+        <div style={{ textAlign: 'center', padding: '4rem 1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
+          No reviews found yet. Be the first to share your experience!
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))', gap: '1.5rem' }}>
           {initialReviews.map((review) => (
-            <div key={review.id} style={{ backgroundColor: '#111', padding: '1.5rem', borderRadius: '0.5rem', border: '1px solid #222' }}>
-              <div style={{ display: 'flex', color: '#ffd700', gap: '2px', marginBottom: '1rem' }}>
+            <motion.div 
+              key={review.id} 
+              whileHover={{ y: -4 }}
+              style={{ backgroundColor: 'var(--bg-secondary)', padding: '1.75rem', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-card)', display: 'flex', flexDirection: 'column' }}
+            >
+              <div style={{ display: 'flex', color: '#fbbf24', gap: '3px', marginBottom: '1rem', filter: 'drop-shadow(0 0 6px rgba(251, 191, 36, 0.35))' }}>
                 {Array.from({ length: review.rating }).map((_, i) => (
                   <Star key={i} size={16} fill="currentColor" />
                 ))}
               </div>
-              <p style={{ color: '#fff', marginBottom: '1.5rem', lineHeight: '1.6' }}>"{review.review}"</p>
+              <p style={{ color: 'var(--mist)', marginBottom: '1.5rem', lineHeight: '1.6', fontSize: '0.95rem', fontStyle: 'italic', flexGrow: 1 }}>
+                "{review.review}"
+              </p>
               <div>
-                <strong style={{ color: '#fff' }}>{review.customerName}</strong>
-                {review.company && <span style={{ color: '#888' }}> • {review.company}</span>}
+                <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{review.customerName}</strong>
+                {review.company && <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}> • {review.company}</span>}
               </div>
               {review.productProject && (
-                <div style={{ color: '#888', fontSize: '0.875rem', marginTop: '0.25rem' }}>For {review.productProject}</div>
+                <div style={{ color: 'var(--indigo-glow)', fontSize: '0.78rem', marginTop: '0.35rem', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  For {review.productProject}
+                </div>
               )}
-            </div>
+            </motion.div>
           ))}
         </div>
       )}
