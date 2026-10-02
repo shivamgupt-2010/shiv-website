@@ -24,7 +24,11 @@ export default function AdminLogin() {
       });
 
       if (res?.error) {
-        setError("Invalid email or password.");
+        if (res.error === "CredentialsSignin") {
+          setError("Invalid email or password. (Default is admin@shiv.com / shivadmin)");
+        } else {
+          setError(res.error);
+        }
         setLoading(false);
       } else if (res?.ok) {
         window.location.href = "/admin";
