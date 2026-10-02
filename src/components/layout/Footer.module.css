@@ -74,6 +74,12 @@
   transform: translateX(2px);
 }
 
+.linkWithIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .bottom {
   margin-top: var(--spacing-12);
   padding-top: var(--spacing-6);
