@@ -1,7 +1,15 @@
 import { PrismaClient } from '@prisma/client'
 
+const SUPABASE_DB_URL = "postgresql://postgres.onshnlrygyumoyhfonfb:13feb20tenshiv@aws-0-ap-south-1.pooler.supabase.com:5432/postgres";
+
 const prismaClientSingleton = () => {
-  return new PrismaClient()
+  return new PrismaClient({
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL || SUPABASE_DB_URL,
+      },
+    },
+  });
 }
 
 declare global {
