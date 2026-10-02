@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import db from '@/lib/db';
 import ProductDetailClient from './ProductDetailClient';
 import Link from 'next/link';
@@ -5,6 +6,59 @@ import { ArrowLeft } from 'lucide-react';
 import styles from './page.module.css';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+
+export async function generateMetadata({ params }: { params: Promise<{ product: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const slug = resolvedParams.product;
+
+  const product = await db.product.findUnique({
+    where: { slug },
+    include: { images: true }
+  });
+
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+    };
+  }
+
+  const baseUrl = process.env.NEXTAUTH_URL || 'https://shiv-website.vercel.app';
+  const imgUrl = product.images[0]?.url || `${baseUrl}/icon.svg`;
+
+  return {
+    title: product.name,
+    description: product.description || `Buy ${product.name} on the official SHIV Store for ₹${product.price.toLocaleString('en-IN')}.`,
+    keywords: [
+      product.name,
+      'SHIV store',
+      'SHIV products',
+      'buy SHIV',
+      'SHIV apparel',
+      'SHIV clothing',
+      'SHIV official drops',
+    ],
+    openGraph: {
+      title: `${product.name} | SHIV Store`,
+      description: product.description || `Buy ${product.name} for ₹${product.price.toLocaleString('en-IN')} on the official SHIV Store.`,
+      url: `${baseUrl}/products/${product.slug}`,
+      siteName: 'SHIV Store',
+      images: [
+        {
+          url: imgUrl,
+          width: 800,
+          height: 800,
+          alt: product.name,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} | SHIV Store`,
+      description: product.description || `Available now on the official SHIV Store for ₹${product.price.toLocaleString('en-IN')}.`,
+      images: [imgUrl],
+    },
+  };
+}
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ product: string }> }) {
   const resolvedParams = await params;
@@ -65,5 +119,38 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     }
   }
 
-  return <ProductDetailClient product={formattedProduct} userId={userId} isWishlisted={isWishlisted} />;
+  const baseUrl = process.env.NEXTAUTH_URL || 'https://shiv-website.vercel.app';
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    image: formattedProduct.images.length > 0 ? formattedProduct.images : [`${baseUrl}/icon.svg`],
+    description: product.description || `Official ${product.name} from SHIV Store.`,
+    sku: product.id,
+    brand: {
+      '@type': 'Brand',
+      name: 'SHIV Store',
+    },
+    offers: {
+      '@type': 'Offer',
+      url: `${baseUrl}/products/${product.slug}`,
+      priceCurrency: 'INR',
+      price: product.price,
+      availability: product.status === 'OUT_OF_STOCK' ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+      seller: {
+        '@type': 'Organization',
+        name: 'SHIV Store',
+      },
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <ProductDetailClient product={formattedProduct} userId={userId} isWishlisted={isWishlisted} />
+    </>
+  );
 }
