@@ -1,13 +1,14 @@
 .footer {
   border-top: 1px solid var(--border-color);
   padding: var(--spacing-16) 0 var(--spacing-8);
-  margin-top: var(--spacing-32);
+  margin-top: var(--spacing-24);
+  background: rgba(7, 9, 13, 0.6);
 }
 
 .container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--spacing-12);
+  gap: var(--spacing-8);
   width: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
@@ -17,33 +18,43 @@
 @media (min-width: 768px) {
   .container {
     grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--spacing-12);
   }
 }
 
 .brand {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-4);
+  gap: var(--spacing-3);
 }
 
 .logo {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--white);
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  width: fit-content;
 }
 
 .tagline {
   color: var(--text-secondary);
-  font-size: 0.9rem;
-  max-width: 250px;
+  font-size: 0.85rem;
+  max-width: 280px;
+  letter-spacing: 0.05em;
+  font-family: var(--font-mono);
 }
 
 .title {
   color: var(--white);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   margin-bottom: var(--spacing-4);
+  letter-spacing: 0.02em;
 }
 
 .links {
@@ -55,17 +66,18 @@
 .link {
   color: var(--text-secondary);
   font-size: 0.9rem;
-  transition: color var(--transition-micro);
+  transition: color var(--transition-micro), transform var(--transition-micro);
 }
 
 .link:hover {
-  color: var(--white);
+  color: var(--cyan);
+  transform: translateX(2px);
 }
 
 .bottom {
-  margin-top: var(--spacing-16);
-  padding-top: var(--spacing-8);
-  border-top: 1px solid var(--border-color);
+  margin-top: var(--spacing-12);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-4);
@@ -82,8 +94,8 @@
 }
 
 .copyright {
-  color: var(--text-secondary);
-  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
 }
 
 .legal {
@@ -92,11 +104,22 @@
 }
 
 .legalLink {
-  color: var(--text-secondary);
-  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
   transition: color var(--transition-micro);
 }
 
 .legalLink:hover {
-  color: var(--white);
+  color: var(--mist);
+}
+
+@media (max-width: 640px) {
+  .footer {
+    padding: var(--spacing-12) 0 var(--spacing-6);
+    margin-top: var(--spacing-16);
+  }
+
+  .container {
+    gap: var(--spacing-8);
+  }
 }
