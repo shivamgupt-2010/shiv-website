@@ -1,17 +1,16 @@
 import AdminSidebar from './AdminSidebar';
 import AdminHeader from './AdminHeader';
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { cookies } from "next/headers";
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
-  const role = (session?.user as any)?.role || "ADMIN";
+  const cookieStore = await cookies();
+  const isAuthenticated = cookieStore.has("admin_token");
 
-  if (!session) {
+  if (!isAuthenticated) {
     return (
       <html lang="en">
         <body style={{ margin: 0, padding: 0, backgroundColor: '#000', color: '#fff' }}>
@@ -26,7 +25,7 @@ export default async function AdminLayout({
       <body style={{ margin: 0, padding: 0, backgroundColor: '#0a0a0a', color: '#fff' }}>
         <div style={{ display: 'flex', minHeight: '100vh' }}>
           {/* Sidebar */}
-          <AdminSidebar role={role} />
+          <AdminSidebar role="ADMIN" />
           
           {/* Main Content */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
