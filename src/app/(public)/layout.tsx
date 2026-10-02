@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import WhatsAppFloating from '@/components/layout/WhatsAppFloating';
 import ProvidersWrapper from '@/components/ProvidersWrapper';
+import { getSiteUrl } from '@/lib/siteUrl';
 
 const sora = Sora({ 
   subsets: ['latin'], 
@@ -24,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-const baseUrl = process.env.NEXTAUTH_URL || 'https://shiv-website.vercel.app';
+const baseUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
