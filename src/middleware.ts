@@ -13,7 +13,6 @@ export default withAuth(
     }
   },
   {
-    secret: process.env.NEXTAUTH_SECRET || "super-secret-shiv-shop-key-2024",
     callbacks: {
       authorized: ({ req, token }) => {
         if (req.nextUrl.pathname.startsWith('/admin') && req.nextUrl.pathname !== "/admin/login") {
