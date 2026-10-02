@@ -3,6 +3,7 @@ import { Sora, Inter, JetBrains_Mono } from 'next/font/google';
 import '../globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import WhatsAppFloating from '@/components/layout/WhatsAppFloating';
 import ProvidersWrapper from '@/components/ProvidersWrapper';
 
 const sora = Sora({ 
@@ -117,10 +118,18 @@ const jsonLd = {
         addressCountry: 'IN',
       },
       sameAs: [
-        'https://instagram.com',
-        'https://youtube.com',
-        'https://x.com',
+        'https://youtube.com/@shiv-techofficial?si=waKKCQ642kNOw5Hu',
+        'https://www.instagram.com/shivam_gupta0310/',
       ],
+      telephone: '+91-626686575',
+      email: 'shivamgupta@gmail.com',
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: '+91-626686575',
+        contactType: 'customer support',
+        email: 'shivamgupta@gmail.com',
+        availableLanguage: ['English', 'Hindi'],
+      },
     },
     {
       '@type': 'WebSite',
@@ -159,6 +168,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <WhatsAppFloating />
         </ProvidersWrapper>
       </body>
     </html>
