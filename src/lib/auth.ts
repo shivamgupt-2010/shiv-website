@@ -52,7 +52,8 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error: any) {
           console.error('[AUTH ERROR]:', error);
-          throw new Error('Database connection failed. Please verify DATABASE_URL in Vercel settings.');
+          const msg = error?.message?.split('\n')?.[0] || 'Database connection failed';
+          throw new Error(`DB Error: ${msg}`);
         }
       }
     })
