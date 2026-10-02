@@ -1,5 +1,23 @@
+import type { Metadata } from 'next';
 import db from '@/lib/db';
 import ProductsClient from './ProductsClient';
+
+export const metadata: Metadata = {
+  title: 'Shop Products & Limited Drops',
+  description: 'Explore the official SHIV Store collection. Premium lifestyle apparel, limited edition hoodies, graphic tees, tech skins, and exclusive drops.',
+  keywords: [
+    'SHIV store products',
+    'SHIV store',
+    'buy SHIV',
+    'SHIV clothing',
+    'SHIV apparel',
+    'SHIV merchandise',
+    'SHIV official drops',
+  ],
+  alternates: {
+    canonical: '/products',
+  },
+};
 
 export default async function ProductsPage() {
   let formattedProducts: any[] = [];
