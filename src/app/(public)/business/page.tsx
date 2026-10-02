@@ -1,10 +1,15 @@
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import type { Metadata } from 'next';
 import db from '@/lib/db';
 import styles from './page.module.css';
 import ClientBusinessPage from './BusinessPageClient';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Business Solutions & Engineering | SHIV Store',
+  description: 'Custom software architecture, bespoke web development, and digital scaling solutions from SHIV.',
+  keywords: ['SHIV business', 'SHIV engineering', 'custom software', 'SHIV consulting', 'SHIV solutions'],
+};
 
 export default async function BusinessPage() {
   const businessPackages = await db.businessPackage.findMany({
