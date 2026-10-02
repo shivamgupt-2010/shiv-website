@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import styles from './page.module.css';
+import { WhatsAppIcon, YouTubeIcon, InstagramIcon, EmailIcon } from '@/components/common/SocialIcons';
 
 export default function AboutClient() {
   return (
@@ -109,6 +110,43 @@ export default function AboutClient() {
               and physical craftsmanship. With a focus on quality and minimal aesthetics, 
               he leads the creative and technical direction of the company.
             </p>
+
+            <div className={styles.founderLinks}>
+              <a
+                href="https://wa.me/91626686575"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${styles.founderLink} ${styles.founderWhatsApp}`}
+                title="WhatsApp"
+              >
+                <WhatsAppIcon size={16} /> WhatsApp: 626686575
+              </a>
+              <a
+                href="mailto:shivamgupta@gmail.com"
+                className={`${styles.founderLink} ${styles.founderEmail}`}
+                title="Email"
+              >
+                <EmailIcon size={16} /> shivamgupta@gmail.com
+              </a>
+              <a
+                href="https://youtube.com/@shiv-techofficial?si=waKKCQ642kNOw5Hu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${styles.founderLink} ${styles.founderYoutube}`}
+                title="YouTube"
+              >
+                <YouTubeIcon size={16} /> @shiv-techofficial
+              </a>
+              <a
+                href="https://www.instagram.com/shivam_gupta0310/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${styles.founderLink} ${styles.founderInstagram}`}
+                title="Instagram"
+              >
+                <InstagramIcon size={16} /> @shivam_gupta0310
+              </a>
+            </div>
           </div>
         </motion.div>
       </section>
