@@ -52,75 +52,83 @@
 }
 
 .price {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-lg);
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: var(--spacing-6);
 }
 
 .description {
-  font-size: 1.125rem;
+  font-size: 1.05rem;
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: var(--spacing-xl);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-8);
 }
 
 .optionsGroup {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-6);
 }
 
 .optionsLabel {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  margin-bottom: var(--spacing-sm);
-  color: var(--text-primary);
+  font-size: 0.85rem;
+  margin-bottom: var(--spacing-2);
+  color: var(--mist);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .pills {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-2);
 }
 
 .pill {
-  padding: 0.75rem 1.5rem;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--text-primary);
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-tertiary);
+  color: var(--mist);
   cursor: pointer;
   transition: all var(--transition-fast);
-  font-family: var(--font-inter);
+  font-family: var(--font-body);
+  font-weight: 500;
 }
 
 .pill:hover {
-  border-color: var(--text-primary);
+  border-color: var(--border-hover);
+  color: var(--white);
 }
 
 .pill.active {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  border-color: var(--text-primary);
+  background: var(--gradient-primary);
+  color: var(--white);
+  border-color: transparent;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
 }
 
 .addToCart {
   width: 100%;
-  padding: 1.25rem;
-  background: var(--text-primary);
-  color: var(--bg-primary);
+  padding: 1.15rem;
+  background: var(--gradient-primary);
+  color: var(--white);
   border: none;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-sora);
-  font-weight: 600;
-  font-size: 1rem;
+  border-radius: var(--radius-xl);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
   cursor: pointer;
-  transition: opacity var(--transition-fast);
+  box-shadow: 0 4px 20px -2px rgba(99, 102, 241, 0.4);
+  transition: all var(--transition-interface);
   margin-top: auto;
 }
 
 .addToCart:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px -2px rgba(139, 92, 246, 0.6);
 }
 
 .backLink {
