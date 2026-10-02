@@ -104,7 +104,107 @@
   transform: translateY(-2px);
 }
 
+.channelsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-8);
+}
+
+.channelCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-5);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.channelCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.channelWhatsApp:hover {
+  border-color: #25d366;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.2);
+}
+
+.channelEmail:hover {
+  border-color: var(--azure);
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.2);
+}
+
+.channelYoutube:hover {
+  border-color: #ff0000;
+  box-shadow: 0 4px 20px rgba(255, 0, 0, 0.2);
+}
+
+.channelInstagram:hover {
+  border-color: #e1306c;
+  box-shadow: 0 4px 20px rgba(225, 48, 108, 0.2);
+}
+
+.channelIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--bg-tertiary);
+  color: var(--white);
+  flex-shrink: 0;
+}
+
+.channelWhatsApp .channelIcon {
+  color: #25d366;
+}
+
+.channelEmail .channelIcon {
+  color: var(--azure);
+}
+
+.channelYoutube .channelIcon {
+  color: #ff0000;
+}
+
+.channelInstagram .channelIcon {
+  color: #e1306c;
+}
+
+.channelInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.channelLabel {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.channelValue {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 640px) {
+  .channelsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-3);
+  }
+
   .form {
     padding: var(--spacing-6);
     gap: var(--spacing-4);
