@@ -64,5 +64,5 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET || "super-secret-shiv-shop-key-2024",
+  secret: process.env.NEXTAUTH_SECRET,
 };
