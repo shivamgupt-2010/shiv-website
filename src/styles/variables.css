@@ -1,26 +1,54 @@
 :root {
-  /* Brand Colors */
-  --obsidian: #050505;
-  --charcoal: #111111;
-  --slate: #222222;
+  /* Brand Colors - Deep Rich Obsidian Dark Theme */
+  --obsidian: #07090e;
+  --charcoal: #0e121b;
+  --slate: #181d29;
+  --slate-light: #242b3d;
   --mist: #e2e8f0;
   --white: #ffffff;
   
-  /* Accent Colors */
-  --electric-blue: #3b82f6;
+  /* Minimal Multi-Color Modern Accent Palette */
+  --electric-blue: #0ea5e9;
+  --azure: #38bdf8;
+  --cyan: #06b6d4;
+  --emerald: #10b981;
+  --mint: #34d399;
+  --amber: #f59e0b;
+  --sunset: #f97316;
+  --coral: #fb7185;
+  --indigo-glow: #6366f1;
   --violet: #8b5cf6;
-  --peach: #f97316;
-  --accent-glow: rgba(59, 130, 246, 0.5);
+  
+  /* Rich Minimal Gradients */
+  --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+  --gradient-azure: linear-gradient(135deg, #00d2ff 0%, #3b82f6 100%);
+  --gradient-emerald: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  --gradient-sunset: linear-gradient(135deg, #f97316 0%, #f43f5e 100%);
+  --gradient-amber: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  --gradient-hero: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #fb923c 100%);
+  --gradient-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  --gradient-card-hover: linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, transparent 100%);
+
+  /* Ambient Glows */
+  --glow-primary: 0 0 30px -5px rgba(14, 165, 233, 0.35);
+  --glow-azure: 0 0 30px -5px rgba(56, 189, 248, 0.35);
+  --glow-emerald: 0 0 30px -5px rgba(16, 185, 129, 0.35);
+  --glow-sunset: 0 0 30px -5px rgba(249, 115, 22, 0.35);
+  --glow-amber: 0 0 30px -5px rgba(245, 158, 11, 0.35);
+  --glow-violet: 0 0 30px -5px rgba(99, 102, 241, 0.3);
 
   /* Semantic Colors */
   --bg-primary: var(--obsidian);
   --bg-secondary: var(--charcoal);
   --bg-tertiary: var(--slate);
+  --bg-glass: rgba(14, 18, 27, 0.75);
   
   --text-primary: var(--white);
   --text-secondary: #94a3b8;
+  --text-muted: #64748b;
   
-  --border-color: rgba(255, 255, 255, 0.1);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(139, 92, 246, 0.4);
 
   /* Fonts */
   --font-display: 'Sora', sans-serif;
@@ -41,21 +69,51 @@
 
   /* Layout */
   --container-max-width: 1200px;
-  --container-padding: 1.5rem;
+  --container-padding: 1.25rem;
 
   /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 16px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 32px -4px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.5);
 
   /* Transitions */
-  --transition-micro: 150ms ease-out;
-  --transition-interface: 400ms ease-out;
-  --transition-cinematic: 800ms ease-in-out;
+  --transition-micro: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-interface: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-cinematic: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 250ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Compatibility Aliases for components */
+  --header-height: 72px;
+  --font-sora: var(--font-display);
+  --font-inter: var(--font-body);
+  --accent-primary: var(--indigo-glow);
+  --accent-secondary: var(--violet);
+  --accent-cyan: var(--cyan);
+  --border-light: var(--border-color);
+  --card-bg: var(--bg-secondary);
+  --shadow-hover: var(--glow-primary);
+  --spacing-xs: var(--spacing-1);
+  --spacing-sm: var(--spacing-2);
+  --spacing-md: var(--spacing-4);
+  --spacing-lg: var(--spacing-6);
+  --spacing-xl: var(--spacing-8);
+  --spacing-2xl: var(--spacing-12);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --container-padding: 1rem;
+    --spacing-16: 2.5rem;
+    --spacing-24: 3.5rem;
+    --spacing-32: 4.5rem;
+  }
 }
