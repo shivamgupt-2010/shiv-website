@@ -1,15 +1,12 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import db from "@/lib/db";
 import Link from "next/link";
 import { format } from "date-fns";
 
 export default async function AdminDashboard() {
-  const session = await getServerSession(authOptions);
-
-  const userRole = ((session?.user as any)?.role || '').toUpperCase();
-  if (!session || !["ADMIN", "PRODUCT_MANAGER"].includes(userRole)) {
+  const cookieStore = await cookies();
+  if (!cookieStore.has("admin_token")) {
     redirect("/admin/login");
   }
 
