@@ -1,7 +1,14 @@
+import type { Metadata } from 'next';
 import db from '@/lib/db';
 import styles from './page.module.css';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Gallery & Media Showcase | SHIV Store',
+  description: 'Explore the visual showcase, prototypes, design drops, and media from SHIV Store.',
+  keywords: ['SHIV gallery', 'SHIV media', 'SHIV store', 'product showcase', 'design drops'],
+};
 
 /**
  * Converts any YouTube URL to the correct embed URL.
