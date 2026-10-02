@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { useState, useEffect, Suspense, useRef } from 'react';
 import { submitContactForm } from '@/app/actions/publicContact';
 import styles from './page.module.css';
+import { WhatsAppIcon, YouTubeIcon, InstagramIcon, EmailIcon } from '@/components/common/SocialIcons';
 
 function ContactForm() {
   const searchParams = useSearchParams();
@@ -125,6 +126,68 @@ export default function ContactClient() {
           <h1 className={styles.title}>Start a Project.</h1>
           <p className={styles.subtitle}>Let's build something extraordinary together.</p>
         </div>
+
+        {/* Direct Channels */}
+        <div className={styles.channelsGrid}>
+          <a
+            href="https://wa.me/91626686575"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.channelCard} ${styles.channelWhatsApp}`}
+          >
+            <div className={styles.channelIcon}>
+              <WhatsAppIcon size={22} />
+            </div>
+            <div className={styles.channelInfo}>
+              <span className={styles.channelLabel}>WhatsApp</span>
+              <span className={styles.channelValue}>+91 626686575</span>
+            </div>
+          </a>
+
+          <a
+            href="mailto:shivamgupta@gmail.com"
+            className={`${styles.channelCard} ${styles.channelEmail}`}
+          >
+            <div className={styles.channelIcon}>
+              <EmailIcon size={22} />
+            </div>
+            <div className={styles.channelInfo}>
+              <span className={styles.channelLabel}>Email</span>
+              <span className={styles.channelValue}>shivamgupta@gmail.com</span>
+            </div>
+          </a>
+
+          <a
+            href="https://youtube.com/@shiv-techofficial?si=waKKCQ642kNOw5Hu"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.channelCard} ${styles.channelYoutube}`}
+          >
+            <div className={styles.channelIcon}>
+              <YouTubeIcon size={22} />
+            </div>
+            <div className={styles.channelInfo}>
+              <span className={styles.channelLabel}>YouTube</span>
+              <span className={styles.channelValue}>@shiv-techofficial</span>
+            </div>
+          </a>
+
+          <a
+            href="https://www.instagram.com/shivam_gupta0310/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.channelCard} ${styles.channelInstagram}`}
+          >
+            <div className={styles.channelIcon}>
+              <InstagramIcon size={22} />
+            </div>
+            <div className={styles.channelInfo}>
+              <span className={styles.channelLabel}>Instagram</span>
+              <span className={styles.channelValue}>@shivam_gupta0310</span>
+            </div>
+          </a>
+        </div>
+
         <Suspense fallback={<div style={{ textAlign: 'center', padding: '2rem' }}>Loading form...</div>}>
           <ContactForm />
         </Suspense>
