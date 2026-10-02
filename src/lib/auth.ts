@@ -16,29 +16,44 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await db.user.findUnique({
-          where: { email: credentials.email as string }
-        });
+        try {
+          const email = (credentials.email as string).trim().toLowerCase();
+          const password = (credentials.password as string).trim();
 
-        if (!user) {
-          return null;
+          const user = await db.user.findFirst({
+            where: {
+              email: {
+                equals: email,
+                mode: 'insensitive',
+              }
+            }
+          });
+
+          if (!user) {
+            console.log(`[AUTH] No user found for email: ${email}`);
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            password,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            console.log(`[AUTH] Password mismatch for email: ${email}`);
+            return null;
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          };
+        } catch (error: any) {
+          console.error('[AUTH ERROR]:', error);
+          throw new Error('Database connection failed. Please verify DATABASE_URL in Vercel settings.');
         }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password as string,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        };
       }
     })
   ],
