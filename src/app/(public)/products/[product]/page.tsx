@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import styles from './page.module.css';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { getSiteUrl } from '@/lib/siteUrl';
 
 export async function generateMetadata({ params }: { params: Promise<{ product: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ product: 
     };
   }
 
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://shiv-website.vercel.app';
+  const baseUrl = getSiteUrl();
   const imgUrl = product.images[0]?.url || `${baseUrl}/icon.svg`;
 
   return {
@@ -119,7 +120,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     }
   }
 
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://shiv-website.vercel.app';
+  const baseUrl = getSiteUrl();
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
