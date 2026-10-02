@@ -8,23 +8,33 @@ export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
 
-    if (res?.error) {
-      setError("Invalid credentials.");
-    } else {
-      router.push("/admin");
-      router.refresh();
+      if (res?.error) {
+        setError("Invalid email or password.");
+        setLoading(false);
+      } else if (res?.ok) {
+        window.location.href = "/admin";
+      } else {
+        setError("Sign in failed. Please check credentials.");
+        setLoading(false);
+      }
+    } catch (err: any) {
+      setError(err?.message || "An unexpected error occurred.");
+      setLoading(false);
     }
   };
 
@@ -57,8 +67,21 @@ export default function AdminLogin() {
           />
         </div>
         
-        <button type="submit" style={{ width: '100%', padding: '1rem', backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer' }}>
-          Sign In
+        <button 
+          type="submit" 
+          disabled={loading}
+          style={{ 
+            width: '100%', 
+            padding: '1rem', 
+            backgroundColor: loading ? '#666' : '#fff', 
+            color: '#000', 
+            border: 'none', 
+            borderRadius: '4px', 
+            fontWeight: 'bold', 
+            cursor: loading ? 'not-allowed' : 'pointer' 
+          }}
+        >
+          {loading ? "Signing In..." : "Sign In"}
         </button>
       </form>
     </div>
