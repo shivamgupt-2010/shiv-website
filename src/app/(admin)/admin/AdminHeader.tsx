@@ -61,7 +61,14 @@ export default function AdminHeader() {
         </button>
         <div style={{ width: '1px', height: '24px', backgroundColor: '#333' }}></div>
         <button 
-          onClick={() => signOut({ callbackUrl: '/admin/login' })}
+          onClick={async () => {
+            try {
+              const { auth } = await import('@/lib/firebase');
+              await auth.signOut();
+            } catch {}
+            document.cookie = "admin_token=; path=/; max-age=0";
+            window.location.replace("/admin/login");
+          }}
           style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem' }}
         >
           <LogOut size={18} /> Logout
