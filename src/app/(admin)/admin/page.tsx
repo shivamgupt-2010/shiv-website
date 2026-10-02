@@ -12,30 +12,43 @@ export default async function AdminDashboard() {
     redirect("/admin/login");
   }
 
-  // Fetch quick stats
-  const [totalOrders, totalProducts, totalRevenueAgg, pendingLeads] = await Promise.all([
-    db.order.count(),
-    db.product.count(),
-    db.order.aggregate({
-      _sum: { total: true },
-      where: { status: { notIn: ["CANCELLED", "REFUNDED", "PENDING"] } }
-    }),
-    db.businessLead.count({ where: { status: "NEW" } }),
-  ]);
+  let totalOrders = 0;
+  let totalProducts = 0;
+  let totalRevenue = 0;
+  let pendingLeads = 0;
+  let recentOrders: any[] = [];
+  let recentCustomers: any[] = [];
 
-  const recentOrders = await db.order.findMany({
-    take: 5,
-    orderBy: { createdAt: 'desc' },
-    include: { items: true }
-  });
+  try {
+    const [ordersCount, productsCount, revenueAgg, leadsCount] = await Promise.all([
+      db.order.count(),
+      db.product.count(),
+      db.order.aggregate({
+        _sum: { total: true },
+        where: { status: { notIn: ["CANCELLED", "REFUNDED", "PENDING"] } }
+      }),
+      db.businessLead.count({ where: { status: "NEW" } }),
+    ]);
 
-  const recentCustomers = await db.user.findMany({
-    where: { role: 'CUSTOMER' },
-    take: 5,
-    orderBy: { createdAt: 'desc' }
-  });
+    totalOrders = ordersCount;
+    totalProducts = productsCount;
+    totalRevenue = revenueAgg._sum.total || 0;
+    pendingLeads = leadsCount;
 
-  const totalRevenue = totalRevenueAgg._sum.total || 0;
+    recentOrders = await db.order.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      include: { items: true }
+    });
+
+    recentCustomers = await db.user.findMany({
+      where: { role: 'CUSTOMER' },
+      take: 5,
+      orderBy: { createdAt: 'desc' }
+    });
+  } catch (error) {
+    console.error('Error fetching admin dashboard stats:', error);
+  }
 
   return (
     <div>
