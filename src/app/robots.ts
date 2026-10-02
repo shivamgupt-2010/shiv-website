@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
+import { getSiteUrl } from '@/lib/siteUrl';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://shiv-website.vercel.app';
+  const baseUrl = getSiteUrl();
 
   return {
     rules: [
