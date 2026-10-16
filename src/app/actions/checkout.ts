@@ -29,6 +29,30 @@ export async function processCheckout(input: CheckoutInput) {
     // Generate an order number
     const orderNumber = `SHIV-${randomBytes(3).toString('hex').toUpperCase()}`;
 
+    // Guarantee that every cart item (including service packages) has a valid backing record in Product table
+    for (const item of input.items) {
+      const existingProduct = await db.product.findUnique({
+        where: { id: item.productId },
+      });
+      if (!existingProduct) {
+        await db.product.upsert({
+          where: { id: item.productId },
+          update: {},
+          create: {
+            id: item.productId,
+            name: `Package: ${item.productId}`,
+            slug: `package-${item.productId.toLowerCase().replace(/[^a-z0-9-]/g, '-')}`,
+            description: 'SHIV Official Digital Growth Deliverable Package',
+            shortDescription: 'SHIV Digital Business Package',
+            price: item.price,
+            sku: `SHIV-PKG-${item.productId.slice(-8).toUpperCase()}`,
+            status: 'ACTIVE',
+            stock: 9999,
+          },
+        });
+      }
+    }
+
     // Create the order using a transaction
     const order = await db.order.create({
       data: {
