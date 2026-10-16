@@ -1,28 +1,46 @@
 import type { MetadataRoute } from 'next';
 import db from '@/lib/db';
 import { getSiteUrl } from '@/lib/siteUrl';
+import { getAllDigitalProducts } from '@/lib/digitalProducts';
 
 export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getSiteUrl();
 
-  // 1. Fetch dynamic products from database
+  // 1. Fetch dynamic products from database and digital catalogue
   let productEntries: MetadataRoute.Sitemap = [];
+  
+  // A. Digital templates & starter kits
+  try {
+    const digitalProducts = await getAllDigitalProducts();
+    const digitalEntries: MetadataRoute.Sitemap = digitalProducts.map((product) => ({
+      url: `${baseUrl}/products/${product.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    }));
+    productEntries = [...productEntries, ...digitalEntries];
+  } catch (error) {
+    console.error('Error generating sitemap digital products:', error);
+  }
+
+  // B. Database physical/custom products
   try {
     const products = await db.product.findMany({
       where: { status: 'ACTIVE' },
       select: { slug: true, updatedAt: true },
     });
 
-    productEntries = products.map((product) => ({
+    const dbEntries: MetadataRoute.Sitemap = products.map((product) => ({
       url: `${baseUrl}/products/${product.slug}`,
       lastModified: product.updatedAt,
       changeFrequency: 'weekly' as const,
-      priority: 0.9,
+      priority: 0.85,
     }));
+    productEntries = [...productEntries, ...dbEntries];
   } catch (error) {
-    console.error('Error generating sitemap products:', error);
+    console.error('Error generating sitemap database products:', error);
   }
 
   // 2. Public high-priority routes for Google indexing
@@ -55,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/business`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 0.8,
+      priority: 0.85,
     },
     {
       url: `${baseUrl}/business/services`,

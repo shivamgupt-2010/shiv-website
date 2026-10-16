@@ -1,21 +1,24 @@
 import type { Metadata } from 'next';
-import db from '@/lib/db';
 import HomeClient from './HomeClient';
+import { getFeaturedDigitalProducts, getDynamicCategories, getAllDigitalProducts } from '@/lib/digitalProducts';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'SHIV Store | Official Store & Products — Build. Design. Evolve.',
-  description: 'Welcome to the official SHIV Store. Discover cutting-edge developer apparel, cyberpunk drops, high-performance tech wear, and digital tools created by SHIV.',
+  title: 'SHIV Shop | Premium Digital Assets, Website Templates & Developer Tools',
+  description: 'Build Better. Launch Faster. Premium website templates, interactive animation components, React UI kits, FastAPI starters, and full-stack software kits engineered by SHIV.',
   keywords: [
+    'SHIV shop',
     'SHIV store',
-    'SHIV official store',
-    'SHIV brand',
-    'SHIV merch',
-    'SHIV clothing',
-    'buy SHIV',
-    'SHIV apparel',
-    'SHIV streetwear',
-    'SHIV developers',
-    'SHIV online shopping',
+    'website templates',
+    'UI kits',
+    'developer tools',
+    'React components',
+    'FastAPI starter',
+    'Next.js templates',
+    'digital products marketplace',
+    'Figma templates',
+    'animation components',
   ],
   alternates: {
     canonical: '/',
@@ -23,35 +26,20 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  let featuredProducts: { id: string; name: string; slug: string; priceFormatted: string; imageUrl: string | null }[] = [];
-  let reviews: any[] = [];
+  const [featuredProducts, categories, allProducts] = await Promise.all([
+    getFeaturedDigitalProducts(8),
+    getDynamicCategories(),
+    getAllDigitalProducts(),
+  ]);
 
-  try {
-    const products = await db.product.findMany({
-      where: { status: 'ACTIVE' },
-      take: 4,
-      include: { images: true },
-    });
+  // Pick bundles
+  const bundles = allProducts.filter((p) => p.category === 'bundles');
 
-    featuredProducts = products.map(p => ({
-      id: p.id,
-      name: p.name,
-      slug: p.slug,
-      priceFormatted: `₹${p.price.toLocaleString('en-IN')}`,
-      imageUrl: p.images[0]?.url || null,
-    }));
-
-    reviews = await db.review.findMany({
-      where: {
-        featured: true,
-        hidden: false,
-      },
-      take: 6,
-      orderBy: { id: 'desc' },
-    });
-  } catch (error) {
-    console.error('Database connection error in Home page:', error);
-  }
-
-  return <HomeClient featuredProducts={featuredProducts} featuredReviews={reviews} />;
+  return (
+    <HomeClient
+      featuredProducts={featuredProducts}
+      categories={categories}
+      bundles={bundles}
+    />
+  );
 }

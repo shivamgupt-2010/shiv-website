@@ -1,18 +1,21 @@
 import type { Metadata } from 'next';
-import db from '@/lib/db';
 import ProductsClient from './ProductsClient';
+import { getAllDigitalProducts, getDynamicCategories } from '@/lib/digitalProducts';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Shop Products & Limited Drops',
-  description: 'Explore the official SHIV Store collection. Premium lifestyle apparel, limited edition hoodies, graphic tees, tech skins, and exclusive drops.',
+  title: 'Digital Products Catalogue | Website Templates, UI Kits & Starters | SHIV Shop',
+  description: 'Explore the complete SHIV digital asset catalogue. High-performance website templates, React UI components, FastAPI backend starters, and full-stack software kits.',
   keywords: [
-    'SHIV store products',
-    'SHIV store',
-    'buy SHIV',
-    'SHIV clothing',
-    'SHIV apparel',
-    'SHIV merchandise',
-    'SHIV official drops',
+    'SHIV digital products',
+    'website templates',
+    'developer tools',
+    'React components',
+    'FastAPI starter',
+    'UI kits',
+    'Next.js boilerplates',
+    'software starter kits',
   ],
   alternates: {
     canonical: '/products',
@@ -20,26 +23,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
-  let formattedProducts: any[] = [];
+  const [products, categories] = await Promise.all([
+    getAllDigitalProducts(),
+    getDynamicCategories(),
+  ]);
 
-  try {
-    const products = await db.product.findMany({
-      include: { categories: true, images: true },
-      where: { status: { not: 'ARCHIVED' } }, // optionally filter
-    });
-
-    formattedProducts = products.map(p => ({
-      id: p.id,
-      name: p.name,
-      slug: p.slug,
-      category: p.categories[0]?.name || 'Uncategorized',
-      priceFormatted: `₹${p.price.toLocaleString('en-IN')}`,
-      status: p.status,
-      imageUrl: p.images[0]?.url || null,
-    }));
-  } catch (error) {
-    console.error('Database connection error in Products page:', error);
-  }
-
-  return <ProductsClient products={formattedProducts} />;
+  return <ProductsClient products={products} categories={categories} />;
 }

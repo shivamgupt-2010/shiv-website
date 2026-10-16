@@ -1,20 +1,63 @@
 import type { Metadata } from 'next';
 import db from '@/lib/db';
 import ProductDetailClient from './ProductDetailClient';
+import DigitalProductDetailClient from './DigitalProductDetailClient';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import styles from './page.module.css';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getSiteUrl } from '@/lib/siteUrl';
+import { getDigitalProductBySlug, getDigitalProductsByCategory } from '@/lib/digitalProducts';
 
 export async function generateMetadata({ params }: { params: Promise<{ product: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const slug = resolvedParams.product;
+  const baseUrl = getSiteUrl();
 
+  // 1. Check digital product catalog
+  const digital = await getDigitalProductBySlug(slug);
+  if (digital) {
+    const metaTitle = `${digital.name} | SHIV Shop`;
+    const metaDesc = digital.description || `Download ${digital.name} source code and developer assets on SHIV Shop.`;
+    return {
+      title: metaTitle,
+      description: metaDesc,
+      keywords: [
+        digital.name,
+        digital.categoryLabel,
+        ...digital.techStack,
+        'SHIV digital assets',
+        'code templates',
+        'software starters',
+      ],
+      openGraph: {
+        title: metaTitle,
+        description: metaDesc,
+        url: `${baseUrl}/products/${digital.slug}`,
+        siteName: 'SHIV Shop',
+        images: [
+          {
+            url: digital.screenshotUrl || `${baseUrl}/icon.svg`,
+            width: 1200,
+            height: 630,
+            alt: digital.name,
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: metaTitle,
+        description: metaDesc,
+        images: [digital.screenshotUrl || `${baseUrl}/icon.svg`],
+      },
+    };
+  }
+
+  // 2. Fallback to database
   const product = await db.product.findUnique({
     where: { slug },
-    include: { images: true }
+    include: { images: true },
   });
 
   if (!product) {
@@ -23,7 +66,6 @@ export async function generateMetadata({ params }: { params: Promise<{ product: 
     };
   }
 
-  const baseUrl = getSiteUrl();
   const imgUrl = product.images[0]?.url || `${baseUrl}/icon.svg`;
 
   return {
@@ -34,9 +76,7 @@ export async function generateMetadata({ params }: { params: Promise<{ product: 
       'SHIV store',
       'SHIV products',
       'buy SHIV',
-      'SHIV apparel',
-      'SHIV clothing',
-      'SHIV official drops',
+      'SHIV developer resources',
     ],
     openGraph: {
       title: `${product.name} | SHIV Store`,
@@ -64,19 +104,65 @@ export async function generateMetadata({ params }: { params: Promise<{ product: 
 export default async function ProductDetailPage({ params }: { params: Promise<{ product: string }> }) {
   const resolvedParams = await params;
   const slug = resolvedParams.product;
+  const baseUrl = getSiteUrl();
+  const session = await getServerSession(authOptions);
+  const userId = (session?.user as any)?.id;
 
+  // 1. Check digital products catalog
+  const digitalProduct = await getDigitalProductBySlug(slug);
+  if (digitalProduct) {
+    const categoryProducts = await getDigitalProductsByCategory(digitalProduct.category);
+    const relatedProducts = categoryProducts
+      .filter((p) => p.id !== digitalProduct.id && p.slug !== digitalProduct.slug)
+      .slice(0, 4);
+
+    const digitalSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: digitalProduct.name,
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'Cross-platform',
+      description: digitalProduct.description,
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'INR',
+        price: digitalProduct.price,
+        availability: 'https://schema.org/InStock',
+        url: `${baseUrl}/products/${digitalProduct.slug}`,
+      },
+    };
+
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(digitalSchema) }}
+        />
+        <DigitalProductDetailClient
+          product={digitalProduct}
+          relatedProducts={relatedProducts}
+          userId={userId}
+        />
+      </>
+    );
+  }
+
+  // 2. Fallback to database
   const product = await db.product.findUnique({
     where: { slug },
-    include: { categories: true, variants: true, images: true }
+    include: { categories: true, variants: true, images: true },
   });
 
   if (!product) {
     return (
       <div className={styles.container}>
         <div style={{ textAlign: 'center', paddingTop: '10vh' }}>
-          <h1>Product not found</h1>
-          <Link href="/products" className={styles.backLink} style={{ marginTop: '2rem' }}>
-            <ArrowLeft size={16} /> Back to Products
+          <h1 style={{ color: '#fff', fontSize: '2rem', marginBottom: '1rem' }}>Product not found</h1>
+          <p style={{ color: '#94a3b8', marginBottom: '2rem' }}>
+            The product you requested might have been moved or updated.
+          </p>
+          <Link href="/products" className={styles.backLink}>
+            <ArrowLeft size={16} /> Back to Marketplace Catalogue
           </Link>
         </div>
       </div>
@@ -84,8 +170,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   }
 
   // Extract variants by name based on our seeder pattern
-  const sizes = product.variants.filter(v => v.name === 'Size').map(v => v.value);
-  const variants = product.variants.filter(v => v.name === 'Variant').map(v => v.value);
+  const sizes = product.variants.filter((v) => v.name === 'Size').map((v) => v.value);
+  const variants = product.variants.filter((v) => v.name === 'Variant').map((v) => v.value);
 
   const formattedProduct = {
     id: product.id,
@@ -99,11 +185,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     isCustomizable: product.customizable,
     sizes,
     variants,
-    images: product.images.map(img => img.url),
+    images: product.images.map((img) => img.url),
   };
-
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as any)?.id;
 
   let isWishlisted = false;
   if (userId) {
@@ -112,15 +195,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         userId_productId: {
           userId,
           productId: product.id,
-        }
-      }
+        },
+      },
     });
     if (wishlistItem) {
       isWishlisted = true;
     }
   }
 
-  const baseUrl = getSiteUrl();
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -137,7 +219,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       url: `${baseUrl}/products/${product.slug}`,
       priceCurrency: 'INR',
       price: product.price,
-      availability: product.status === 'OUT_OF_STOCK' ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+      availability:
+        product.status === 'OUT_OF_STOCK'
+          ? 'https://schema.org/OutOfStock'
+          : 'https://schema.org/InStock',
       seller: {
         '@type': 'Organization',
         name: 'SHIV Store',
@@ -151,7 +236,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
-      <ProductDetailClient product={formattedProduct} userId={userId} isWishlisted={isWishlisted} />
+      <ProductDetailClient
+        product={formattedProduct}
+        userId={userId}
+        isWishlisted={isWishlisted}
+      />
     </>
   );
 }
