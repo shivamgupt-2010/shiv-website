@@ -101,20 +101,22 @@
 
 .submitBtn {
   width: 100%;
-  background: linear-gradient(90deg, var(--electric-blue) 0%, var(--violet) 100%);
+  background: var(--gradient-primary);
   color: var(--white);
   border: none;
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-4);
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: var(--radius-xl);
+  padding: 1.15rem;
+  font-size: 1.05rem;
+  font-weight: 700;
   margin-top: var(--spacing-8);
   cursor: pointer;
-  transition: opacity var(--transition-micro);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  transition: all var(--transition-interface);
 }
 
 .submitBtn:hover:not(:disabled) {
-  opacity: 0.9;
+  box-shadow: 0 6px 30px rgba(139, 92, 246, 0.6);
+  transform: translateY(-2px);
 }
 
 .submitBtn:disabled {
@@ -238,14 +240,16 @@
 
 .btnPrimary {
   display: inline-block;
-  background: var(--white);
-  color: var(--obsidian);
-  padding: var(--spacing-3) var(--spacing-8);
-  border-radius: var(--radius-full);
+  background: var(--gradient-primary);
+  color: var(--white);
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius-xl);
   font-weight: 600;
-  transition: opacity var(--transition-micro);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  transition: all var(--transition-interface);
 }
 
 .btnPrimary:hover {
-  opacity: 0.9;
+  box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
+  transform: translateY(-2px);
 }

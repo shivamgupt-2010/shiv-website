@@ -26,16 +26,18 @@
 
 .continueShopping {
   display: inline-block;
-  background: var(--white);
-  color: var(--obsidian);
-  padding: var(--spacing-3) var(--spacing-8);
-  border-radius: var(--radius-full);
+  background: var(--gradient-primary);
+  color: var(--white);
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius-xl);
   font-weight: 600;
-  transition: opacity var(--transition-micro);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  transition: all var(--transition-interface);
 }
 
 .continueShopping:hover {
-  opacity: 0.9;
+  box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
+  transform: translateY(-2px);
 }
 
 .cartLayout {
@@ -196,15 +198,18 @@
   justify-content: center;
   gap: var(--spacing-2);
   width: 100%;
-  background: linear-gradient(90deg, var(--electric-blue) 0%, var(--violet) 100%);
+  background: var(--gradient-primary);
   color: var(--white);
-  padding: var(--spacing-4);
-  border-radius: var(--radius-lg);
-  font-weight: 600;
+  padding: 1.1rem;
+  border-radius: var(--radius-xl);
+  font-weight: 700;
+  font-size: 1rem;
   margin-top: var(--spacing-8);
-  transition: opacity var(--transition-micro);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  transition: all var(--transition-interface);
 }
 
 .checkoutBtn:hover {
-  opacity: 0.9;
+  box-shadow: 0 6px 30px rgba(139, 92, 246, 0.6);
+  transform: translateY(-2px);
 }

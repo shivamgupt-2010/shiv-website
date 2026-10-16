@@ -55,7 +55,7 @@ export default function ChooseServicesClient({
   const { addToCart, cartCount } = useCart();
 
   // Active Mode: 'packages' | 'builder' | 'custom'
-  const [activeMode, setActiveMode] = useState<'packages' | 'builder' | 'custom'>('packages');
+  const [activeMode, setActiveMode] = useState<'packages' | 'builder' | 'custom'>('builder');
 
   // =========================================
   // STATE: OPTION 1 — PACKAGES
