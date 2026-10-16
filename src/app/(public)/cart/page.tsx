@@ -47,7 +47,10 @@ export default function CartPage() {
                   SHIV
                 </div>
                 <div className={styles.itemDetails}>
-                  <Link href={`/products/${item.slug}`} className={styles.itemName}>
+                  <Link 
+                    href={item.slug?.startsWith('pkg-') || item.slug?.startsWith('package-') || item.slug === 'services' ? '/business/services' : `/products/${item.slug}`} 
+                    className={styles.itemName}
+                  >
                     {item.name}
                   </Link>
                   <div className={styles.itemOptions}>
