@@ -17,6 +17,7 @@ export default function Footer() {
           <h3 className={styles.title}>Explore</h3>
           <div className={styles.links}>
             <Link href="/products" className={styles.link}>Products</Link>
+            <Link href="/business/services" className={styles.link}>Services Price Catalogue</Link>
             <Link href="/software" className={styles.link}>Software</Link>
             <Link href="/business" className={styles.link}>Business Solutions</Link>
           </div>
