@@ -1,17 +1,30 @@
 import type { Metadata } from 'next';
 import db from '@/lib/db';
 import ClientSoftwarePage from './SoftwarePageClient';
+import { getMergedTemplates } from '@/lib/templatesManager';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Software & Developer Tools | SHIV Store',
-  description: 'Download and explore high-performance software, developer utilities, and digital assets crafted by SHIV.',
-  keywords: ['SHIV software', 'SHIV store', 'developer tools', 'SHIV digital products', 'tech downloads'],
+  title: 'SHIV Templates Marketplace | Website UI, Kits & Developer Assets',
+  description: 'Download high-performance website templates, React UI components, backend APIs, and developer automation tools crafted by SHIV store.',
+  keywords: [
+    'SHIV software',
+    'SHIV store',
+    'website templates',
+    'developer tools',
+    'React components',
+    'Next.js starters',
+    'digital downloads',
+    'SHIV marketplace',
+  ],
 };
 
 export default async function SoftwarePage() {
-  const software = await db.softwareProduct.findMany();
+  const [software, templates] = await Promise.all([
+    db.softwareProduct.findMany().catch(() => []),
+    getMergedTemplates(),
+  ]);
 
-  return <ClientSoftwarePage software={software} />;
+  return <ClientSoftwarePage software={software} templates={templates} />;
 }
