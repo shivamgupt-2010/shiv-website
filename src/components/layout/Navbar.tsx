@@ -11,9 +11,10 @@ import styles from './Navbar.module.css';
 const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Products', href: '/products' },
-  { name: 'Gallery', href: '/gallery' },
+  { name: 'Services', href: '/business/services' },
   { name: 'Software', href: '/software' },
   { name: 'Business', href: '/business' },
+  { name: 'Gallery', href: '/gallery' },
   { name: 'Reviews', href: '/reviews' },
   { name: 'About', href: '/about' },
 ];
