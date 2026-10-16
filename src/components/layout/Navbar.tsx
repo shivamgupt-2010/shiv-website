@@ -21,21 +21,32 @@ import {
   PackageCheck,
   Layout,
   ExternalLink,
+  Shirt,
+  Footprints,
+  Watch,
+  Lamp,
+  Paintbrush,
+  Film,
+  BookOpen,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { useSession } from 'next-auth/react';
 import styles from './Navbar.module.css';
 
-const categoriesList = [
+const physicalCategories = [
+  { name: 'Clothes & Streetwear', href: '/products?category=clothes', icon: Shirt, color: '#38bdf8' },
+  { name: 'Shoes & Footwear', href: '/products?category=shoes', icon: Footprints, color: '#f97316' },
+  { name: 'Accessories & Gear', href: '/products?category=accessories', icon: Watch, color: '#a855f7' },
+  { name: 'Decor & Living', href: '/products?category=decor', icon: Lamp, color: '#34d399' },
+  { name: 'Paintings & Canvas Art', href: '/products?category=paintings', icon: Paintbrush, color: '#ec4899' },
+];
+
+const digitalCategories = [
   { name: 'Website Templates', href: '/products?category=website-templates', icon: Layout, color: '#38bdf8' },
   { name: 'Animations & Effects', href: '/products?category=animations', icon: Sparkles, color: '#ec4899' },
   { name: 'UI Kits & Components', href: '/products?category=ui-kits', icon: Layers, color: '#a855f7' },
-  { name: 'Frontend Code', href: '/products?category=frontend', icon: Code, color: '#10b981' },
-  { name: 'Backend Starters', href: '/products?category=backend', icon: Server, color: '#f97316' },
-  { name: 'SaaS Starter Kits', href: '/products?category=saas-kits', icon: Rocket, color: '#6366f1' },
-  { name: 'Graphics & Branding', href: '/products?category=graphics', icon: Palette, color: '#eab308' },
-  { name: 'Bundles & Collections', href: '/products?category=bundles', icon: PackageCheck, color: '#06b6d4' },
+  { name: 'Software & Starters', href: '/software', icon: Rocket, color: '#6366f1' },
 ];
 
 export default function Navbar() {
@@ -111,9 +122,9 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`${styles.navbar} ${scrolled ? styles.navbarScrolled : ''}`}>
+      <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ''}`}>
         <div className={styles.container}>
-          {/* Logo */}
+          {/* Brand Logo */}
           <Link href="/" className={styles.logo}>
             <span className={styles.logoGradient}>SHIV</span>
             <span className={styles.logoTag}>SHOP</span>
@@ -129,14 +140,7 @@ export default function Navbar() {
               Home
             </Link>
 
-            <Link 
-              href="/products" 
-              className={`${styles.navLink} ${pathname.startsWith('/products') ? styles.navLinkActive : ''}`}
-            >
-              All Assets
-            </Link>
-
-            {/* Categories Mega Dropdown trigger */}
+            {/* Shop & Categories Dropdown */}
             <div 
               className={styles.dropdownWrapper}
               onMouseEnter={() => setIsCatDropdownOpen(true)}
@@ -147,7 +151,7 @@ export default function Navbar() {
                 className={`${styles.navLink} ${styles.dropdownBtn}`}
                 onClick={() => setIsCatDropdownOpen(!isCatDropdownOpen)}
               >
-                <span>Categories</span>
+                <span>Shop Catalogue</span>
                 <ChevronDown size={14} className={isCatDropdownOpen ? styles.chevronRotated : ''} />
               </button>
 
@@ -160,27 +164,61 @@ export default function Navbar() {
                     transition={{ duration: 0.15 }}
                     className={styles.dropdownMenu}
                   >
-                    <div className={styles.dropdownGrid}>
-                      {categoriesList.map((cat) => {
-                        const Icon = cat.icon;
-                        return (
-                          <Link
-                            key={cat.name}
-                            href={cat.href}
-                            className={styles.dropdownItem}
-                            onClick={() => setIsCatDropdownOpen(false)}
-                          >
-                            <div className={styles.dropdownIconBox} style={{ color: cat.color }}>
-                              <Icon size={16} />
-                            </div>
-                            <span className={styles.dropdownItemText}>{cat.name}</span>
-                          </Link>
-                        );
-                      })}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', padding: '1.25rem' }}>
+                      {/* Physical Products */}
+                      <div>
+                        <div style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.08em', marginBottom: '0.75rem', paddingLeft: '0.5rem' }}>
+                          Physical Drops &amp; Art
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                          {physicalCategories.map((cat) => {
+                            const Icon = cat.icon;
+                            return (
+                              <Link
+                                key={cat.name}
+                                href={cat.href}
+                                className={styles.dropdownItem}
+                                onClick={() => setIsCatDropdownOpen(false)}
+                              >
+                                <div className={styles.dropdownIconBox} style={{ color: cat.color }}>
+                                  <Icon size={16} />
+                                </div>
+                                <span className={styles.dropdownItemText}>{cat.name}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Digital & Software */}
+                      <div>
+                        <div style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.08em', marginBottom: '0.75rem', paddingLeft: '0.5rem' }}>
+                          Software &amp; Digital
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                          {digitalCategories.map((cat) => {
+                            const Icon = cat.icon;
+                            return (
+                              <Link
+                                key={cat.name}
+                                href={cat.href}
+                                className={styles.dropdownItem}
+                                onClick={() => setIsCatDropdownOpen(false)}
+                              >
+                                <div className={styles.dropdownIconBox} style={{ color: cat.color }}>
+                                  <Icon size={16} />
+                                </div>
+                                <span className={styles.dropdownItemText}>{cat.name}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
+
                     <div className={styles.dropdownFooter}>
                       <Link href="/products" className={styles.dropdownFooterLink}>
-                        Browse full catalogue of 95+ digital products <ArrowRight size={14} />
+                        Explore full multipurpose catalogue (Physical &amp; Digital) <ArrowRight size={14} />
                       </Link>
                     </div>
                   </motion.div>
@@ -189,17 +227,33 @@ export default function Navbar() {
             </div>
 
             <Link 
-              href="/business/services" 
-              className={`${styles.navLink} ${pathname.startsWith('/business/services') ? styles.navLinkActive : ''}`}
+              href="/software" 
+              className={`${styles.navLink} ${pathname.startsWith('/software') ? styles.navLinkActive : ''}`}
             >
-              Client Services
+              Software
             </Link>
 
             <Link 
-              href="/about" 
-              className={`${styles.navLink} ${pathname === '/about' ? styles.navLinkActive : ''}`}
+              href="/business/services" 
+              className={`${styles.navLink} ${pathname.startsWith('/business/services') ? styles.navLinkActive : ''}`}
             >
-              About
+              Services
+            </Link>
+
+            <Link 
+              href="/showcase" 
+              className={`${styles.navLink} ${pathname.startsWith('/showcase') || pathname.startsWith('/gallery') ? styles.navLinkActive : ''}`}
+            >
+              <Film size={14} style={{ marginRight: 4, display: 'inline', verticalAlign: 'middle', color: '#38bdf8' }} />
+              Showcase
+            </Link>
+
+            <Link 
+              href="/blog" 
+              className={`${styles.navLink} ${pathname.startsWith('/blog') ? styles.navLinkActive : ''}`}
+            >
+              <BookOpen size={14} style={{ marginRight: 4, display: 'inline', verticalAlign: 'middle', color: '#f472b6' }} />
+              Journal
             </Link>
           </div>
 
@@ -210,96 +264,111 @@ export default function Navbar() {
               type="button"
               className={styles.searchTriggerBtn}
               onClick={() => setIsSearchOpen(true)}
-              aria-label="Search digital products"
+              aria-label="Search all products"
             >
               <Search size={16} />
-              <span className={styles.searchPlaceholderText}>Search assets...</span>
+              <span className={styles.searchPlaceholderText}>Search shop &amp; code...</span>
               <kbd className={styles.searchKbd}>⌘K</kbd>
             </button>
 
             {/* Account Profile Link */}
             {session ? (
-              <Link href="/account" className={styles.accountBtn} title="My Account">
+              <Link 
+                href="/account" 
+                className={styles.userBtn}
+                title={`Logged in as ${session.user?.name || session.user?.email}`}
+              >
                 <User size={18} />
-                <span className={styles.accountText}>{session.user?.name?.split(' ')[0] || 'Account'}</span>
+                <span className={styles.userBtnText}>{session.user?.name?.split(' ')[0] || 'Account'}</span>
               </Link>
             ) : (
-              <Link href="/login" className={styles.accountBtn} title="Sign In">
+              <Link href="/login" className={styles.userBtn} title="Sign in">
                 <User size={18} />
-                <span className={styles.accountText}>Sign In</span>
+                <span className={styles.userBtnText}>Sign In</span>
               </Link>
             )}
 
-            {/* Shopping Cart Button */}
-            <Link href="/cart" className={styles.cartButton} aria-label="Cart">
+            {/* Cart Button */}
+            <Link href="/cart" className={styles.cartBtn} aria-label="Shopping Cart">
               <ShoppingCart size={19} />
-              {cartCount > 0 && <span className={styles.cartBadge}>{cartCount}</span>}
+              {cartCount > 0 && (
+                <span className={styles.cartCountBadge}>
+                  {cartCount > 99 ? '99+' : cartCount}
+                </span>
+              )}
             </Link>
 
             {/* Mobile Menu Toggle */}
-            <button 
-              className={styles.mobileMenuBtn}
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle Menu"
+              className={styles.mobileToggle}
+              aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Global Search Modal */}
+      {/* Quick Search Modal */}
       <AnimatePresence>
         {isSearchOpen && (
-          <div className={styles.searchModalOverlay} onClick={() => setIsSearchOpen(false)}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className={styles.searchModalOverlay}
+            onClick={() => setIsSearchOpen(false)}
+          >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ duration: 0.2 }}
-              className={styles.searchModalContent}
+              initial={{ scale: 0.95, opacity: 0, y: -20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: -20 }}
+              className={styles.searchModalCard}
               onClick={(e) => e.stopPropagation()}
             >
-              <form onSubmit={handleSearchSubmit} className={styles.searchModalForm}>
-                <Search size={18} className={styles.searchModalIcon} />
+              <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+                <Search size={20} className={styles.searchIcon} />
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Search website templates, React kits, FastAPI starters, animations..."
+                  placeholder="Search clothes, decor, software, templates..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className={styles.searchModalInput}
+                  className={styles.searchInput}
                 />
                 <button
                   type="button"
                   onClick={() => setIsSearchOpen(false)}
-                  className={styles.searchModalClose}
+                  className={styles.searchCloseBtn}
                 >
                   <X size={18} />
                 </button>
               </form>
 
-              {/* Quick Suggestion Pills */}
-              <div className={styles.searchSuggestionsBox}>
-                <div className={styles.searchSuggestionsHeader}>Popular Searches</div>
-                <div className={styles.searchPills}>
-                  {['Next.js SaaS', 'FastAPI Starter', 'Interactive Button Pack', 'Figma UI Kit', 'Admin Dashboard', 'Portfolio Template'].map((term) => (
-                    <button
-                      key={term}
-                      type="button"
-                      className={styles.searchPill}
-                      onClick={() => {
-                        setIsSearchOpen(false);
-                        router.push(`/products?q=${encodeURIComponent(term)}`);
-                      }}
-                    >
-                      {term}
-                    </button>
-                  ))}
-                </div>
+              <div className={styles.searchQuickLinks}>
+                <span className={styles.quickLinksLabel}>Trending:</span>
+                <Link href="/products?category=clothes" onClick={() => setIsSearchOpen(false)} className={styles.quickLinkPill}>
+                  Clothes
+                </Link>
+                <Link href="/products?category=paintings" onClick={() => setIsSearchOpen(false)} className={styles.quickLinkPill}>
+                  Paintings
+                </Link>
+                <Link href="/products?category=decor" onClick={() => setIsSearchOpen(false)} className={styles.quickLinkPill}>
+                  Decor
+                </Link>
+                <Link href="/software" onClick={() => setIsSearchOpen(false)} className={styles.quickLinkPill}>
+                  Software
+                </Link>
+                <Link href="/showcase" onClick={() => setIsSearchOpen(false)} className={styles.quickLinkPill}>
+                  Reels
+                </Link>
+                <Link href="/blog" onClick={() => setIsSearchOpen(false)} className={styles.quickLinkPill}>
+                  Journal
+                </Link>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -310,15 +379,16 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
             className={styles.mobileOverlay}
+            onClick={() => setIsMobileMenuOpen(false)}
           >
-            <motion.div 
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className={styles.mobileMenu}
+              onClick={(e) => e.stopPropagation()}
             >
               <div className={styles.mobileMenuHeader}>
                 <div className={styles.logo}>
@@ -338,7 +408,7 @@ export default function Navbar() {
                 <Search size={16} />
                 <input
                   type="text"
-                  placeholder="Search digital assets..."
+                  placeholder="Search products &amp; stories..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className={styles.mobileSearchInput}
@@ -357,27 +427,39 @@ export default function Navbar() {
                   href="/products"
                   className={`${styles.mobileNavLink} ${pathname.startsWith('/products') ? styles.mobileNavLinkActive : ''}`}
                 >
-                  All Products
+                  All Shop Products
+                </Link>
+                <Link
+                  href="/software"
+                  className={`${styles.mobileNavLink} ${pathname.startsWith('/software') ? styles.mobileNavLinkActive : ''}`}
+                >
+                  Software Tools
                 </Link>
                 <Link
                   href="/business/services"
                   className={`${styles.mobileNavLink} ${pathname.startsWith('/business/services') ? styles.mobileNavLinkActive : ''}`}
                 >
-                  Custom Business Services
+                  Client Services
                 </Link>
                 <Link
-                  href="/about"
-                  className={`${styles.mobileNavLink} ${pathname === '/about' ? styles.mobileNavLinkActive : ''}`}
+                  href="/showcase"
+                  className={`${styles.mobileNavLink} ${pathname.startsWith('/showcase') || pathname.startsWith('/gallery') ? styles.mobileNavLinkActive : ''}`}
                 >
-                  About SHIV
+                  Reels &amp; Photos Showcase
+                </Link>
+                <Link
+                  href="/blog"
+                  className={`${styles.mobileNavLink} ${pathname.startsWith('/blog') ? styles.mobileNavLinkActive : ''}`}
+                >
+                  Blog &amp; Journal
                 </Link>
               </div>
 
-              {/* Categories Sublist */}
+              {/* Physical Categories Sublist */}
               <div className={styles.mobileCategorySection}>
-                <div className={styles.mobileCategoryTitle}>Categories</div>
+                <div className={styles.mobileCategoryTitle}>Physical Drops</div>
                 <div className={styles.mobileCategoryGrid}>
-                  {categoriesList.map((cat) => {
+                  {physicalCategories.map((cat) => {
                     const Icon = cat.icon;
                     return (
                       <Link
@@ -414,7 +496,7 @@ export default function Navbar() {
                 )}
 
                 <Link href="/admin/login" className={styles.mobileAdminLink}>
-                  <Shield size={14} /> Admin Portal
+                  <Shield size={14} /> Admin Portal (Staff Only)
                 </Link>
               </div>
             </motion.div>

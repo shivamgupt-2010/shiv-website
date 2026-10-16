@@ -862,7 +862,158 @@ export default function HomeClient({ featuredProducts, categories, bundles }: Ho
       )}
 
       {/* =========================================
-          7. WHY CHOOSE SHIV & HOW IT WORKS
+          7. MULTIPURPOSE UNIVERSE: PHYSICAL DROPS, REELS & JOURNAL
+          ========================================= */}
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.sectionBadge} style={{ color: '#38bdf8' }}>The Multipurpose Ecosystem</span>
+          <h2 className={styles.sectionTitle}>Physical Drops, Art, Video Reels &amp; Stories</h2>
+          <p className={styles.sectionSubtitle}>
+            Beyond digital code—explore our complete universe of heavyweight streetwear apparel, original canvas paintings, room decor, video reels, and editorial stories.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
+          {/* Card 1: Apparel & Shoes */}
+          <Link
+            href="/products?category=clothes"
+            style={{
+              background: '#0d121f',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '1.25rem',
+              overflow: 'hidden',
+              textDecoration: 'none',
+              color: 'inherit',
+              transition: 'all 0.25s ease',
+            }}
+          >
+            <div style={{ height: '170px', overflow: 'hidden', background: '#090d16', position: 'relative' }}>
+              <img
+                src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80"
+                alt="Streetwear Apparel"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <span style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', background: 'rgba(56, 189, 248, 0.85)', color: '#fff', fontSize: '0.7rem', fontWeight: 800, padding: '0.2rem 0.6rem', borderRadius: '4px', textTransform: 'uppercase' }}>
+                Apparel &amp; Footwear
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem' }}>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: '0.35rem' }}>Clothes, Shoes &amp; Accessories</h3>
+              <p style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+                Heavyweight 400+ GSM loopback hoodies, minimalist cyber tees, and vulcanized footwear.
+              </p>
+              <span style={{ fontSize: '0.82rem', color: '#38bdf8', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                Shop Physical Drops <ArrowRight size={13} />
+              </span>
+            </div>
+          </Link>
+
+          {/* Card 2: Canvas Paintings & Living Decor */}
+          <Link
+            href="/products?category=paintings"
+            style={{
+              background: '#0d121f',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '1.25rem',
+              overflow: 'hidden',
+              textDecoration: 'none',
+              color: 'inherit',
+              transition: 'all 0.25s ease',
+            }}
+          >
+            <div style={{ height: '170px', overflow: 'hidden', background: '#090d16', position: 'relative' }}>
+              <img
+                src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80"
+                alt="Canvas Art"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <span style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', background: 'rgba(236, 72, 153, 0.85)', color: '#fff', fontSize: '0.7rem', fontWeight: 800, padding: '0.2rem 0.6rem', borderRadius: '4px', textTransform: 'uppercase' }}>
+                Decor &amp; Art
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem' }}>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: '0.35rem' }}>Paintings &amp; Ambient Decor</h3>
+              <p style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+                Original textured canvas art, diffused ambient lights, and minimalist desk objects.
+              </p>
+              <span style={{ fontSize: '0.82rem', color: '#ec4899', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                View Art Collection <ArrowRight size={13} />
+              </span>
+            </div>
+          </Link>
+
+          {/* Card 3: Reels & Media Showcase */}
+          <Link
+            href="/showcase"
+            style={{
+              background: '#0d121f',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '1.25rem',
+              overflow: 'hidden',
+              textDecoration: 'none',
+              color: 'inherit',
+              transition: 'all 0.25s ease',
+            }}
+          >
+            <div style={{ height: '170px', overflow: 'hidden', background: '#090d16', position: 'relative' }}>
+              <img
+                src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=600&q=80"
+                alt="Video Reels & Media"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <span style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', background: 'rgba(168, 85, 247, 0.85)', color: '#fff', fontSize: '0.7rem', fontWeight: 800, padding: '0.2rem 0.6rem', borderRadius: '4px', textTransform: 'uppercase' }}>
+                Reels &amp; Video
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem' }}>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: '0.35rem' }}>Reels &amp; Photos Showcase</h3>
+              <p style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+                Watch vertical 9:16 video reels, fit checks, and interactive photo drops with direct shop links.
+              </p>
+              <span style={{ fontSize: '0.82rem', color: '#a855f7', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                Explore Showcase <ArrowRight size={13} />
+              </span>
+            </div>
+          </Link>
+
+          {/* Card 4: Editorial Journal */}
+          <Link
+            href="/blog"
+            style={{
+              background: '#0d121f',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '1.25rem',
+              overflow: 'hidden',
+              textDecoration: 'none',
+              color: 'inherit',
+              transition: 'all 0.25s ease',
+            }}
+          >
+            <div style={{ height: '170px', overflow: 'hidden', background: '#090d16', position: 'relative' }}>
+              <img
+                src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80"
+                alt="SHIV Journal"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <span style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', background: 'rgba(52, 211, 153, 0.85)', color: '#fff', fontSize: '0.7rem', fontWeight: 800, padding: '0.2rem 0.6rem', borderRadius: '4px', textTransform: 'uppercase' }}>
+                Journal &amp; Guides
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem' }}>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: '0.35rem' }}>Stories, Guides &amp; Tech</h3>
+              <p style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+                Written articles covering design philosophies, software architecture, and startup growth.
+              </p>
+              <span style={{ fontSize: '0.82rem', color: '#34d399', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                Read The Journal <ArrowRight size={13} />
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* =========================================
+          8. WHY CHOOSE SHIV & HOW IT WORKS
           ========================================= */}
       <section className={styles.section}>
         <div className={styles.sectionHeader}>

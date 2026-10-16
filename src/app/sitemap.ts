@@ -43,6 +43,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating sitemap database products:', error);
   }
 
+  // C. Dynamic Blog Posts
+  let blogEntries: MetadataRoute.Sitemap = [];
+  try {
+    const blogPosts = await db.blogPost.findMany({
+      where: { published: true },
+      select: { slug: true, updatedAt: true },
+    });
+
+    blogEntries = blogPosts.map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: post.updatedAt,
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    }));
+  } catch (error) {
+    console.error('Error generating sitemap blog entries:', error);
+  }
+
   // 2. Public high-priority routes for Google indexing
   const staticEntries: MetadataRoute.Sitemap = [
     {
@@ -56,6 +74,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/showcase`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/software`,
@@ -107,5 +137,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  return [...staticEntries, ...productEntries];
+  return [...staticEntries, ...productEntries, ...blogEntries];
 }

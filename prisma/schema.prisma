@@ -281,3 +281,39 @@ model GalleryItem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  coverImage  String?
+  author      String   @default("SHIV Team")
+  category    String   @default("Design & Tech")
+  tags        String?
+  readTime    String?  @default("5 min read")
+  published   Boolean  @default(true)
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ShowcaseItem {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  type         String   @default("PHOTO") // REEL, PHOTO, VIDEO
+  mediaUrl     String
+  thumbnailUrl String?
+  aspectRatio  String   @default("9:16") // 9:16 for reels, 1:1, 4:5 for photos
+  category     String   @default("General") // Clothes, Shoes, Accessories, Decor, Paintings, Software
+  tags         String?
+  productLink  String?
+  likes        Int      @default(0)
+  featured     Boolean  @default(false)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+

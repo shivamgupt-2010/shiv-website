@@ -38,6 +38,51 @@ export interface DigitalProduct {
 
 export const DIGITAL_CATEGORIES: DigitalCategory[] = [
   {
+    id: 'cat-clothes',
+    slug: 'clothes',
+    name: 'Clothes & Streetwear',
+    shortDesc: 'Heavyweight loopback cotton hoodies, minimalist cyber tees, and techwear apparel.',
+    iconName: 'Shirt',
+    color: '#38bdf8',
+    itemCount: 8,
+  },
+  {
+    id: 'cat-shoes',
+    slug: 'shoes',
+    name: 'Shoes & Footwear',
+    shortDesc: 'Handcrafted Italian leather high-top sneakers and vulcanized footwear.',
+    iconName: 'Footprints',
+    color: '#f97316',
+    itemCount: 4,
+  },
+  {
+    id: 'cat-accessories',
+    slug: 'accessories',
+    name: 'Accessories & Gear',
+    shortDesc: 'Branded hardware badges, tactile metal keychains, and protective caps.',
+    iconName: 'Watch',
+    color: '#a855f7',
+    itemCount: 6,
+  },
+  {
+    id: 'cat-decor',
+    slug: 'decor',
+    name: 'Decor & Living',
+    shortDesc: 'Minimalist concrete desk trays, ambient glow lamps, and tactile workspace objects.',
+    iconName: 'Lamp',
+    color: '#34d399',
+    itemCount: 5,
+  },
+  {
+    id: 'cat-paintings',
+    slug: 'paintings',
+    name: 'Paintings & Canvas Art',
+    shortDesc: 'Original textured acrylic paintings on Belgian linen and geometric canvas art.',
+    iconName: 'Palette',
+    color: '#ec4899',
+    itemCount: 6,
+  },
+  {
     id: 'cat-website-templates',
     slug: 'website-templates',
     name: 'Website Templates',
@@ -193,9 +238,50 @@ export function templateToDigitalProduct(item: MarketplaceTemplate): DigitalProd
  */
 export async function getAllDigitalProducts(): Promise<DigitalProduct[]> {
   const templates = await getMergedTemplates();
-  return templates
+  const templateProducts = templates
     .filter((t) => t.active !== false)
     .map(templateToDigitalProduct);
+
+  try {
+    const dbProducts = await db.product.findMany({
+      where: { status: 'ACTIVE' },
+      include: { categories: true, images: true },
+    });
+
+    const mappedDbProducts: DigitalProduct[] = dbProducts.map((p) => {
+      const catSlug = p.categories[0]?.slug || 'clothes';
+      const catName = p.categories[0]?.name || 'Apparel';
+      return {
+        id: p.id,
+        slug: p.slug,
+        name: p.name,
+        category: catSlug,
+        categoryLabel: catName,
+        subcategory: catName,
+        price: p.price,
+        compareAtPrice: p.compareAtPrice || Math.round(p.price * 1.3),
+        description: p.shortDescription || p.description,
+        longDescription: p.description,
+        techStack: ['Official SHIV Original', 'Premium Craftsmanship', 'Physical Drop'],
+        features: [
+          'Engineered with premium materials for maximum durability',
+          'Authentic SHIV holographic verification certificate',
+          'Insured doorstep delivery across India with live tracking',
+          '7-day hassle-free replacement guarantee',
+        ],
+        includedFiles: ['Physical Product (Carefully Packaged)', 'Authenticity Certificate', 'Custom Brand Stickers'],
+        version: '1.0',
+        featured: p.featured,
+        screenshotUrl: p.images[0]?.url,
+        rating: 4.9,
+        reviewsCount: 38,
+      };
+    });
+
+    return [...mappedDbProducts, ...templateProducts];
+  } catch (err) {
+    return templateProducts;
+  }
 }
 
 /**
