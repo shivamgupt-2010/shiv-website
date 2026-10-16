@@ -77,4 +77,30 @@ export async function updateBusinessPackage(id: string, formData: FormData) {
   });
 
   revalidatePath('/admin/business-packages');
+  revalidatePath('/business/services');
 }
+
+export async function adminUpdateMasterPackage(packageId: string, updates: any) {
+  const { updatePackageOverride } = await import('@/lib/packagesManager');
+  const success = await updatePackageOverride(packageId, updates);
+  revalidatePath('/admin/business-packages');
+  revalidatePath('/business/services');
+  return { success };
+}
+
+export async function adminResetMasterPackage(packageId: string) {
+  const { resetPackageOverride } = await import('@/lib/packagesManager');
+  const success = await resetPackageOverride(packageId);
+  revalidatePath('/admin/business-packages');
+  revalidatePath('/business/services');
+  return { success };
+}
+
+export async function adminToggleMasterPackageActive(packageId: string, currentActive: boolean) {
+  const { updatePackageOverride } = await import('@/lib/packagesManager');
+  const success = await updatePackageOverride(packageId, { active: !currentActive });
+  revalidatePath('/admin/business-packages');
+  revalidatePath('/business/services');
+  return { success, newStatus: !currentActive };
+}
+
