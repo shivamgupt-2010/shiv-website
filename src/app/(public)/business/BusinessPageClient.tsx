@@ -24,6 +24,34 @@ export default function ClientBusinessPage({ packages, projects }: { packages: a
         >
           We build digital solutions that elevate your business. From intelligent web platforms to custom operational software.
         </motion.p>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}
+        >
+          <Link 
+            href="/business/services"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.6rem',
+              background: 'linear-gradient(135deg, #38bdf8 0%, #6366f1 100%)',
+              color: '#07090e',
+              fontWeight: 700,
+              fontSize: '1rem',
+              padding: '0.85rem 1.75rem',
+              borderRadius: '9999px',
+              textDecoration: 'none',
+              boxShadow: '0 4px 20px rgba(56, 189, 248, 0.35)',
+              transition: 'transform 0.2s ease',
+            }}
+          >
+            <span>✨ Browse Master Services Catalogue (295+ Items)</span>
+            <span>&rarr;</span>
+          </Link>
+        </motion.div>
       </div>
 
       <section className={styles.section}>
