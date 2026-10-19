@@ -1,8 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import db from '@/lib/db';
 import { MASTER_TEMPLATES, MarketplaceTemplate, TEMPLATE_CATEGORIES } from './templatesMarketplaceData';
-
-const TEMPLATE_OVERRIDES_FILE = path.join(process.cwd(), 'src', 'data', 'template_overrides.json');
 
 export interface TemplateOverride {
   name?: string;
@@ -25,43 +22,33 @@ export interface TemplateOverridesMap {
   [templateId: string]: TemplateOverride;
 }
 
-let overridesCache: TemplateOverridesMap | null = null;
-
-function loadTemplateOverrides(): TemplateOverridesMap {
-  if (overridesCache) return overridesCache;
-
+/**
+ * Loads template overrides from PostgreSQL database with memory fallback.
+ */
+export async function loadTemplateOverrides(): Promise<TemplateOverridesMap> {
   try {
-    if (fs.existsSync(TEMPLATE_OVERRIDES_FILE)) {
-      const data = fs.readFileSync(TEMPLATE_OVERRIDES_FILE, 'utf-8');
-      overridesCache = JSON.parse(data);
-      return overridesCache || {};
+    const records = await db.catalogOverride.findMany({
+      where: { type: 'TEMPLATE' },
+    });
+    const map: TemplateOverridesMap = {};
+    for (const rec of records) {
+      const templateId = rec.id.replace(/^template:/, '');
+      try {
+        map[templateId] = JSON.parse(rec.data);
+      } catch {}
     }
+    return map;
   } catch (error) {
-    console.error('Error loading template overrides:', error);
-  }
-  return {};
-}
-
-function saveTemplateOverrides(overrides: TemplateOverridesMap): boolean {
-  try {
-    const dir = path.dirname(TEMPLATE_OVERRIDES_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(TEMPLATE_OVERRIDES_FILE, JSON.stringify(overrides, null, 2), 'utf-8');
-    overridesCache = overrides;
-    return true;
-  } catch (error) {
-    console.error('Error saving template overrides:', error);
-    return false;
+    console.error('Error loading template overrides from db:', error);
+    return {};
   }
 }
 
 /**
- * Returns all marketplace templates merged with custom admin overrides.
+ * Returns all marketplace templates merged with custom admin database overrides.
  */
 export async function getMergedTemplates(): Promise<MarketplaceTemplate[]> {
-  const overrides = loadTemplateOverrides();
+  const overrides = await loadTemplateOverrides();
 
   return MASTER_TEMPLATES.map((item) => {
     const override = overrides[item.id];
@@ -96,24 +83,57 @@ export async function getTemplateById(id: string): Promise<MarketplaceTemplate |
 }
 
 /**
- * Updates a specific template override from the admin dashboard.
+ * Updates a specific template override in PostgreSQL.
  */
 export async function updateTemplateOverride(templateId: string, updates: TemplateOverride): Promise<boolean> {
-  const overrides = loadTemplateOverrides();
-  overrides[templateId] = {
-    ...overrides[templateId],
-    ...updates,
-  };
-  return saveTemplateOverrides(overrides);
+  try {
+    const overrideKey = `template:${templateId}`;
+    const existing = await db.catalogOverride.findUnique({
+      where: { id: overrideKey },
+    });
+
+    let existingData: TemplateOverride = {};
+    if (existing) {
+      try {
+        existingData = JSON.parse(existing.data);
+      } catch {}
+    }
+
+    const merged = { ...existingData, ...updates };
+
+    await db.catalogOverride.upsert({
+      where: { id: overrideKey },
+      create: {
+        id: overrideKey,
+        type: 'TEMPLATE',
+        data: JSON.stringify(merged),
+      },
+      update: {
+        data: JSON.stringify(merged),
+      },
+    });
+
+    return true;
+  } catch (error) {
+    console.error('Error updating template override in DB:', error);
+    return false;
+  }
 }
 
 /**
  * Resets a template to default master specs.
  */
 export async function resetTemplateOverride(templateId: string): Promise<boolean> {
-  const overrides = loadTemplateOverrides();
-  delete overrides[templateId];
-  return saveTemplateOverrides(overrides);
+  try {
+    const overrideKey = `template:${templateId}`;
+    await db.catalogOverride.deleteMany({
+      where: { id: overrideKey },
+    });
+    return true;
+  } catch (error) {
+    console.error('Error resetting template override in DB:', error);
+    return false;
+  }
 }
 
 /**

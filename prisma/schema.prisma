@@ -221,17 +221,28 @@ model BusinessLead {
 }
 
 model SoftwareProduct {
-  id           String  @id @default(cuid())
-  name         String
-  description  String
-  logo         String?
-  screenshots  String? // JSON array of urls
-  features     String? // JSON array of strings
-  version      String?
-  status       String  @default("AVAILABLE") // COMING_SOON, IN_DEVELOPMENT, AVAILABLE, MAINTENANCE, ARCHIVED
-  downloadLink String?
-  websiteLink  String?
-  releaseNotes String?
+  id             String   @id @default(cuid())
+  name           String
+  description    String
+  price          Float?   @default(0)
+  priceFormatted String?  // e.g. "Free", "₹499", "₹1,499/mo"
+  logo           String?
+  screenshots    String?  // JSON array of urls
+  features       String?  // JSON array of strings
+  version        String?
+  status         String   @default("AVAILABLE") // COMING_SOON, IN_DEVELOPMENT, AVAILABLE, MAINTENANCE, ARCHIVED
+  downloadLink   String?
+  websiteLink    String?
+  releaseNotes   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model CatalogOverride {
+  id        String   @id // e.g. "service:web-single-page", "package:pkg-launch-website", "template:single-page-landing"
+  type      String   // "SERVICE", "PACKAGE", "TEMPLATE"
+  data      String   // JSON string of overrides
+  updatedAt DateTime @updatedAt
 }
 
 model Project {

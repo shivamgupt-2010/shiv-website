@@ -41,7 +41,7 @@ export default function AdminSidebar({ role = "SUPER_ADMIN", userEmail = "" }: A
     { href: "/admin", label: "Overview", icon: <LayoutDashboard size={18} />, allowed: true },
     { href: "/admin/orders", label: "Orders", icon: <ShoppingCart size={18} />, allowed: isShopOwner },
     { href: "/admin/products", label: "Products & Stock", icon: <Package size={18} />, allowed: isShopOwner },
-    { href: "/admin/software", label: "Software Products", icon: <Code size={18} />, allowed: isShopOwner },
+    { href: "/admin/software", label: "Software & Templates", icon: <Code size={18} />, allowed: isShopOwner },
     { href: "/admin/delivery", label: "Delivery & Shipping", icon: <Truck size={18} />, allowed: isShopOwner },
     { href: "/admin/customers", label: "Customers", icon: <Users size={18} />, allowed: isShopOwner },
     { href: "/admin/payments", label: "Payments", icon: <CreditCard size={18} />, allowed: isSuperAdmin },
@@ -54,7 +54,7 @@ export default function AdminSidebar({ role = "SUPER_ADMIN", userEmail = "" }: A
     { href: "/admin/reviews", label: "Customer Reviews", icon: <Star size={18} />, allowed: isMarketer },
     { href: "/admin/coupons", label: "Coupons & Offers", icon: <Tags size={18} />, allowed: isMarketer },
     { href: "/admin/business-leads", label: "Business Leads", icon: <Briefcase size={18} />, allowed: isMarketer || isSuperAdmin },
-    { href: "/admin/business-packages", label: "Service Packages", icon: <Box size={18} />, allowed: isSuperAdmin },
+    { href: "/admin/business-packages", label: "Services & Packages", icon: <Box size={18} />, allowed: isSuperAdmin || isShopOwner },
   ].filter(l => l.allowed);
 
   // 3. Administration (Super Admin only)

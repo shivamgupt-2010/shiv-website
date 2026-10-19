@@ -439,9 +439,14 @@ export default function SoftwarePageClient({ software, templates }: SoftwarePage
                 >
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.65rem' }}>
-                      <span style={{ fontSize: '0.72rem', fontWeight: 700, padding: '0.15rem 0.5rem', borderRadius: '4px', background: '#1e293b', color: '#cbd5e1' }}>
-                        {item.status?.replace('_', ' ') || 'AVAILABLE'}
-                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '0.72rem', fontWeight: 700, padding: '0.15rem 0.5rem', borderRadius: '4px', background: '#1e293b', color: '#cbd5e1' }}>
+                          {item.status?.replace('_', ' ') || 'AVAILABLE'}
+                        </span>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#38bdf8', fontFamily: 'monospace' }}>
+                          {item.priceFormatted || (item.price === 0 ? 'Free' : `₹${item.price?.toLocaleString('en-IN')}`)}
+                        </span>
+                      </div>
                       <span style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#64748b' }}>v{item.version || '1.0.0'}</span>
                     </div>
                     <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#ffffff' }}>{item.name}</h3>

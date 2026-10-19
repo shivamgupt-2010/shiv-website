@@ -1,8 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import db from '@/lib/db';
 import { MASTER_PACKAGES, PackageItem, PackageCategory, PACKAGE_CATEGORIES } from './businessPackagesData';
-
-const PACKAGE_OVERRIDES_FILE = path.join(process.cwd(), 'src', 'data', 'package_overrides.json');
 
 export interface PackageOverride {
   price?: number;
@@ -20,43 +17,33 @@ export interface PackageOverridesMap {
   [packageId: string]: PackageOverride;
 }
 
-let overridesCache: PackageOverridesMap | null = null;
-
-function loadPackageOverrides(): PackageOverridesMap {
-  if (overridesCache) return overridesCache;
-
+/**
+ * Loads package overrides from PostgreSQL database with memory fallback.
+ */
+export async function loadPackageOverrides(): Promise<PackageOverridesMap> {
   try {
-    if (fs.existsSync(PACKAGE_OVERRIDES_FILE)) {
-      const data = fs.readFileSync(PACKAGE_OVERRIDES_FILE, 'utf-8');
-      overridesCache = JSON.parse(data);
-      return overridesCache || {};
+    const records = await db.catalogOverride.findMany({
+      where: { type: 'PACKAGE' },
+    });
+    const map: PackageOverridesMap = {};
+    for (const rec of records) {
+      const pkgId = rec.id.replace(/^package:/, '');
+      try {
+        map[pkgId] = JSON.parse(rec.data);
+      } catch {}
     }
+    return map;
   } catch (error) {
-    console.error('Error loading package overrides:', error);
-  }
-  return {};
-}
-
-function savePackageOverrides(overrides: PackageOverridesMap): boolean {
-  try {
-    const dir = path.dirname(PACKAGE_OVERRIDES_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(PACKAGE_OVERRIDES_FILE, JSON.stringify(overrides, null, 2), 'utf-8');
-    overridesCache = overrides;
-    return true;
-  } catch (error) {
-    console.error('Error saving package overrides:', error);
-    return false;
+    console.error('Error loading package overrides from db:', error);
+    return {};
   }
 }
 
 /**
- * Returns all packages merged with custom admin overrides.
+ * Returns all packages merged with custom admin database overrides.
  */
 export async function getMergedPackages(): Promise<PackageItem[]> {
-  const overrides = loadPackageOverrides();
+  const overrides = await loadPackageOverrides();
 
   return MASTER_PACKAGES.map((pkg) => {
     const override = overrides[pkg.id];
@@ -66,7 +53,9 @@ export async function getMergedPackages(): Promise<PackageItem[]> {
       ...pkg,
       name: override.name !== undefined ? override.name : pkg.name,
       price: override.price !== undefined ? override.price : pkg.price,
-      priceFormatted: override.priceFormatted !== undefined ? override.priceFormatted : (override.price ? `₹${override.price.toLocaleString('en-IN')}` : pkg.priceFormatted),
+      priceFormatted: override.priceFormatted !== undefined 
+        ? override.priceFormatted 
+        : (override.price ? `₹${override.price.toLocaleString('en-IN')}` : pkg.priceFormatted),
       description: override.description !== undefined ? override.description : pkg.description,
       deliverables: override.deliverables !== undefined ? override.deliverables : pkg.deliverables,
       active: override.active !== undefined ? override.active : (pkg.active ?? true),
@@ -78,24 +67,57 @@ export async function getMergedPackages(): Promise<PackageItem[]> {
 }
 
 /**
- * Updates a specific package override from the admin dashboard.
+ * Updates a specific package override in PostgreSQL.
  */
 export async function updatePackageOverride(packageId: string, updates: PackageOverride): Promise<boolean> {
-  const overrides = loadPackageOverrides();
-  overrides[packageId] = {
-    ...overrides[packageId],
-    ...updates,
-  };
-  return savePackageOverrides(overrides);
+  try {
+    const overrideKey = `package:${packageId}`;
+    const existing = await db.catalogOverride.findUnique({
+      where: { id: overrideKey },
+    });
+
+    let existingData: PackageOverride = {};
+    if (existing) {
+      try {
+        existingData = JSON.parse(existing.data);
+      } catch {}
+    }
+
+    const merged = { ...existingData, ...updates };
+
+    await db.catalogOverride.upsert({
+      where: { id: overrideKey },
+      create: {
+        id: overrideKey,
+        type: 'PACKAGE',
+        data: JSON.stringify(merged),
+      },
+      update: {
+        data: JSON.stringify(merged),
+      },
+    });
+
+    return true;
+  } catch (error) {
+    console.error('Error updating package override in DB:', error);
+    return false;
+  }
 }
 
 /**
  * Resets a package to default master specs.
  */
 export async function resetPackageOverride(packageId: string): Promise<boolean> {
-  const overrides = loadPackageOverrides();
-  delete overrides[packageId];
-  return savePackageOverrides(overrides);
+  try {
+    const overrideKey = `package:${packageId}`;
+    await db.catalogOverride.deleteMany({
+      where: { id: overrideKey },
+    });
+    return true;
+  } catch (error) {
+    console.error('Error resetting package override in DB:', error);
+    return false;
+  }
 }
 
 /**

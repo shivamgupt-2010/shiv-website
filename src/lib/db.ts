@@ -1,4 +1,9 @@
 import { PrismaClient } from '@prisma/client'
+import dns from 'dns'
+
+if (dns && dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder('ipv4first')
+}
 
 const SUPABASE_DB_URL = "postgresql://postgres.onshnlrygyumoyhfonfb:13feb20tenshiv@aws-0-ap-south-1.pooler.supabase.com:5432/postgres";
 

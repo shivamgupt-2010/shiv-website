@@ -7,6 +7,7 @@ export async function adminUpdateService(serviceId: string, updates: ServiceOver
   try {
     const success = await updateServiceOverride(serviceId, updates);
     revalidatePath('/business/services');
+    revalidatePath('/admin/business-packages');
     revalidatePath('/admin/business-leads');
     return { success };
   } catch (error: any) {
@@ -19,6 +20,7 @@ export async function adminResetService(serviceId: string) {
   try {
     const success = await resetServiceOverride(serviceId);
     revalidatePath('/business/services');
+    revalidatePath('/admin/business-packages');
     revalidatePath('/admin/business-leads');
     return { success };
   } catch (error: any) {
@@ -31,6 +33,7 @@ export async function adminToggleServiceActive(serviceId: string, currentActive:
   try {
     const success = await updateServiceOverride(serviceId, { active: !currentActive });
     revalidatePath('/business/services');
+    revalidatePath('/admin/business-packages');
     revalidatePath('/admin/business-leads');
     return { success, newStatus: !currentActive };
   } catch (error: any) {

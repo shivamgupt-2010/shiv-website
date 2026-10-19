@@ -1,8 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import db from '@/lib/db';
 import { MASTER_SERVICES, ServiceItem, ServiceCategory, SERVICE_CATEGORIES } from './businessServicesData';
-
-const OVERRIDES_FILE = path.join(process.cwd(), 'src', 'data', 'service_overrides.json');
 
 export interface ServiceOverride {
   price?: number;
@@ -16,44 +13,33 @@ export interface OverridesMap {
   [serviceId: string]: ServiceOverride;
 }
 
-// In-memory cache for fast read
-let overridesCache: OverridesMap | null = null;
-
-function loadOverrides(): OverridesMap {
-  if (overridesCache) return overridesCache;
-
+/**
+ * Loads service overrides from PostgreSQL database with memory fallback.
+ */
+export async function loadServiceOverrides(): Promise<OverridesMap> {
   try {
-    if (fs.existsSync(OVERRIDES_FILE)) {
-      const data = fs.readFileSync(OVERRIDES_FILE, 'utf-8');
-      overridesCache = JSON.parse(data);
-      return overridesCache || {};
+    const records = await db.catalogOverride.findMany({
+      where: { type: 'SERVICE' },
+    });
+    const map: OverridesMap = {};
+    for (const rec of records) {
+      const srvId = rec.id.replace(/^service:/, '');
+      try {
+        map[srvId] = JSON.parse(rec.data);
+      } catch {}
     }
+    return map;
   } catch (error) {
-    console.error('Error loading service overrides:', error);
-  }
-  return {};
-}
-
-function saveOverrides(overrides: OverridesMap): boolean {
-  try {
-    const dir = path.dirname(OVERRIDES_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(OVERRIDES_FILE, JSON.stringify(overrides, null, 2), 'utf-8');
-    overridesCache = overrides;
-    return true;
-  } catch (error) {
-    console.error('Error saving service overrides:', error);
-    return false;
+    console.error('Error loading service overrides from db:', error);
+    return {};
   }
 }
 
 /**
- * Returns all services merged with any custom admin overrides.
+ * Returns all services merged with custom admin database overrides.
  */
 export async function getMergedServices(): Promise<ServiceItem[]> {
-  const overrides = loadOverrides();
+  const overrides = await loadServiceOverrides();
 
   return MASTER_SERVICES.map((srv) => {
     const override = overrides[srv.id];
@@ -71,24 +57,57 @@ export async function getMergedServices(): Promise<ServiceItem[]> {
 }
 
 /**
- * Updates a specific service override from the admin dashboard.
+ * Updates a specific service override in PostgreSQL.
  */
 export async function updateServiceOverride(serviceId: string, updates: ServiceOverride): Promise<boolean> {
-  const overrides = loadOverrides();
-  overrides[serviceId] = {
-    ...overrides[serviceId],
-    ...updates,
-  };
-  return saveOverrides(overrides);
+  try {
+    const overrideKey = `service:${serviceId}`;
+    const existing = await db.catalogOverride.findUnique({
+      where: { id: overrideKey },
+    });
+
+    let existingData: ServiceOverride = {};
+    if (existing) {
+      try {
+        existingData = JSON.parse(existing.data);
+      } catch {}
+    }
+
+    const merged = { ...existingData, ...updates };
+
+    await db.catalogOverride.upsert({
+      where: { id: overrideKey },
+      create: {
+        id: overrideKey,
+        type: 'SERVICE',
+        data: JSON.stringify(merged),
+      },
+      update: {
+        data: JSON.stringify(merged),
+      },
+    });
+
+    return true;
+  } catch (error) {
+    console.error('Error updating service override in DB:', error);
+    return false;
+  }
 }
 
 /**
  * Resets a service to default master catalogue specs.
  */
 export async function resetServiceOverride(serviceId: string): Promise<boolean> {
-  const overrides = loadOverrides();
-  delete overrides[serviceId];
-  return saveOverrides(overrides);
+  try {
+    const overrideKey = `service:${serviceId}`;
+    await db.catalogOverride.deleteMany({
+      where: { id: overrideKey },
+    });
+    return true;
+  } catch (error) {
+    console.error('Error resetting service override in DB:', error);
+    return false;
+  }
 }
 
 /**
