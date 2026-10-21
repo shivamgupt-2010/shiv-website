@@ -101,10 +101,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   color: var(--text-secondary);
   font-family: var(--font-mono);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.founderImgTag {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ceoProfileCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: var(--spacing-4);
+  padding: 0.65rem 1.25rem;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(6, 182, 212, 0.2));
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: var(--radius-full);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.ceoProfileCta:hover {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(6, 182, 212, 0.35));
+  border-color: rgba(168, 85, 247, 0.7);
+  transform: translateY(-2px);
+  color: #38bdf8;
 }
 
 .founderRole {

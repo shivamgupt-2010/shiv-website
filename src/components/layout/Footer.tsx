@@ -27,6 +27,7 @@ export default function Footer() {
           <h3 className={styles.title}>Company</h3>
           <div className={styles.links}>
             <Link href="/about" className={styles.link}>About SHIV</Link>
+            <Link href="/ceo" className={styles.link} style={{ color: '#38bdf8', fontWeight: 600 }}>Founder &amp; CEO</Link>
             <Link href="/contact" className={styles.link}>Contact</Link>
           </div>
         </div>
@@ -35,14 +36,14 @@ export default function Footer() {
           <h3 className={styles.title}>Connect</h3>
           <div className={styles.links}>
             <a
-              href="https://youtube.com/@shiv-techofficial?si=waKKCQ642kNOw5Hu"
+              href="https://www.youtube.com/@shivam13gupta"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.link}
-              title="YouTube"
+              title="YouTube @shivam13gupta"
             >
               <span className={styles.linkWithIcon}>
-                <YouTubeIcon size={16} /> YouTube
+                <YouTubeIcon size={16} /> @shivam13gupta
               </span>
             </a>
             <a
@@ -50,10 +51,10 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className={styles.link}
-              title="Instagram"
+              title="Instagram @shivam_gupta0310"
             >
               <span className={styles.linkWithIcon}>
-                <InstagramIcon size={16} /> Instagram
+                <InstagramIcon size={16} /> @shivam_gupta0310
               </span>
             </a>
             <a
@@ -68,12 +69,12 @@ export default function Footer() {
               </span>
             </a>
             <a
-              href="mailto:shivamgupta@gmail.com"
+              href="mailto:admin@shiv.com"
               className={styles.link}
               title="Email"
             >
               <span className={styles.linkWithIcon}>
-                <EmailIcon size={16} /> shivamgupta@gmail.com
+                <EmailIcon size={16} /> admin@shiv.com
               </span>
             </a>
           </div>

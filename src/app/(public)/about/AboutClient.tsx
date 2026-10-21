@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import styles from './page.module.css';
 import { WhatsAppIcon, YouTubeIcon, InstagramIcon, EmailIcon } from '@/components/common/SocialIcons';
@@ -98,51 +99,67 @@ export default function AboutClient() {
           transition={{ duration: 0.8 }}
         >
           <div className={styles.founderImage}>
-            [ FOUNDER PORTRAIT ]
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img 
+              src="/images/ceo/shivam-gupta-ceo.jpg" 
+              alt="Shivam Gupta - Founder and CEO of SHIV" 
+              className={styles.founderImgTag}
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.src.endsWith('.svg')) {
+                  target.src = '/images/ceo/shivam-gupta-ceo.svg';
+                }
+              }}
+            />
           </div>
           
           <div>
-            <div className={styles.founderRole}>Founder, Owner & CEO</div>
+            <div className={styles.founderRole}>Founder, Owner &amp; CEO</div>
             <h2 className={styles.founderName}>Shivam Gupta</h2>
             <p className={styles.founderBio}>
-              Driven by a passion for technology and design, Shivam founded SHIV with the 
-              vision of creating a brand that bridges the gap between digital innovation 
-              and physical craftsmanship. With a focus on quality and minimal aesthetics, 
-              he leads the creative and technical direction of the company.
+              Driven by a passion for technology, mathematics, and design, Shivam founded SHIV with the 
+              vision of creating an ambitious digital ecosystem bridging intelligent AI, developer tooling, 
+              minimal physical craftsmanship, and business acceleration.
             </p>
+
+            <div style={{ marginTop: '1rem', marginBottom: '1.25rem' }}>
+              <Link href="/ceo" className={styles.ceoProfileCta}>
+                View Full Executive Profile &amp; Roadmap &rarr;
+              </Link>
+            </div>
 
             <div className={styles.founderLinks}>
               <a
-                href="https://wa.me/91626686575"
+                href="https://wa.me/916266865755"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${styles.founderLink} ${styles.founderWhatsApp}`}
-                title="WhatsApp"
+                title="WhatsApp: +91 62668 65755"
               >
-                <WhatsAppIcon size={16} /> WhatsApp: 626686575
+                <WhatsAppIcon size={16} /> WhatsApp: +91 62668 65755
               </a>
               <a
-                href="mailto:shivamgupta@gmail.com"
+                href="mailto:admin@shiv.com"
                 className={`${styles.founderLink} ${styles.founderEmail}`}
-                title="Email"
+                title="Email: admin@shiv.com"
               >
-                <EmailIcon size={16} /> shivamgupta@gmail.com
+                <EmailIcon size={16} /> admin@shiv.com
               </a>
               <a
-                href="https://youtube.com/@shiv-techofficial?si=waKKCQ642kNOw5Hu"
+                href="https://www.youtube.com/@shivam13gupta"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${styles.founderLink} ${styles.founderYoutube}`}
-                title="YouTube"
+                title="YouTube: @shivam13gupta"
               >
-                <YouTubeIcon size={16} /> @shiv-techofficial
+                <YouTubeIcon size={16} /> @shivam13gupta
               </a>
               <a
                 href="https://www.instagram.com/shivam_gupta0310/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${styles.founderLink} ${styles.founderInstagram}`}
-                title="Instagram"
+                title="Instagram: @shivam_gupta0310"
               >
                 <InstagramIcon size={16} /> @shivam_gupta0310
               </a>

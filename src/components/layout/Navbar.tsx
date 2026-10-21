@@ -255,6 +255,14 @@ export default function Navbar() {
               <BookOpen size={14} style={{ marginRight: 4, display: 'inline', verticalAlign: 'middle', color: '#f472b6' }} />
               Journal
             </Link>
+
+            <Link 
+              href="/ceo" 
+              className={`${styles.navLink} ${pathname.startsWith('/ceo') || pathname.startsWith('/shivam-gupta') ? styles.navLinkActive : ''}`}
+            >
+              <User size={14} style={{ marginRight: 4, display: 'inline', verticalAlign: 'middle', color: '#a78bfa' }} />
+              CEO
+            </Link>
           </div>
 
           {/* Right Actions */}
@@ -452,6 +460,12 @@ export default function Navbar() {
                   className={`${styles.mobileNavLink} ${pathname.startsWith('/blog') ? styles.mobileNavLinkActive : ''}`}
                 >
                   Blog &amp; Journal
+                </Link>
+                <Link
+                  href="/ceo"
+                  className={`${styles.mobileNavLink} ${pathname.startsWith('/ceo') || pathname.startsWith('/shivam-gupta') ? styles.mobileNavLinkActive : ''}`}
+                >
+                  Founder &amp; CEO
                 </Link>
               </div>
 

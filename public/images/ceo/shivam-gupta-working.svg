@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="codeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#codeBg)"/>
+  
+  <!-- Subtle Terminal / IDE Grid Box -->
+  <rect x="30" y="30" width="740" height="540" rx="16" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+  
+  <!-- Header Bar -->
+  <rect x="30" y="30" width="740" height="44" rx="16" fill="rgba(255,255,255,0.04)"/>
+  <circle cx="60" cy="52" r="6" fill="#ef4444"/>
+  <circle cx="80" cy="52" r="6" fill="#f59e0b"/>
+  <circle cx="100" cy="52" r="6" fill="#10b981"/>
+  <text x="400" y="57" font-family="monospace" font-size="12" fill="#94a3b8" text-anchor="middle">shivam-gupta@shiv-architecture ~ system-core</text>
+
+  <!-- Technical Monogram Icon -->
+  <g transform="translate(400, 240)">
+    <rect x="-70" y="-70" width="140" height="140" rx="28" fill="rgba(56, 189, 248, 0.08)" stroke="url(#cyanGrad)" stroke-width="2"/>
+    <path d="M -30 -10 L -45 5 L -30 20 M 30 -10 L 45 5 L 30 20 M 15 -25 L -15 35" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <text x="400" y="360" font-family="system-ui, sans-serif" font-size="28" font-weight="800" fill="#ffffff" text-anchor="middle">Engineering &amp; System Architecture</text>
+  <text x="400" y="395" font-family="system-ui, sans-serif" font-size="15" font-weight="500" fill="#94a3b8" text-anchor="middle">SHIV AI • SHIV-OS • Next.js Digital Ecosystem</text>
+  
+  <!-- Code Snippet Aesthetic -->
+  <g transform="translate(180, 440)">
+    <rect x="0" y="0" width="440" height="70" rx="8" fill="#090d16" stroke="rgba(255,255,255,0.08)"/>
+    <text x="20" y="28" font-family="monospace" font-size="12" fill="#38bdf8">const ecosystem = new ShivEcosystem({</text>
+    <text x="40" y="48" font-family="monospace" font-size="12" fill="#cbd5e1">architect: "Shivam Gupta", vision: "First-Principles AI"</text>
+    <text x="20" y="64" font-family="monospace" font-size="12" fill="#38bdf8">});</text>
+  </g>
+
+  <text x="400" y="545" font-family="system-ui, sans-serif" font-size="12" fill="#475569" text-anchor="middle">
+    Drop shivam-gupta-working.jpg in public/images/ceo/ to replace
+  </text>
+</svg>
