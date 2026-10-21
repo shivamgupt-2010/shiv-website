@@ -29,56 +29,35 @@ import { YouTubeIcon, InstagramIcon, WhatsAppIcon, EmailIcon } from '@/component
 import styles from './page.module.css';
 
 interface PhotoPerspective {
-  id: 'executive' | 'architecture' | 'music';
+  id: 'portrait' | 'candid';
   label: string;
   badge: string;
   sub: string;
   primarySrc: string;
-  fallbackSrc: string;
   alt: string;
 }
 
 const photoPerspectives: PhotoPerspective[] = [
   {
-    id: 'executive',
-    label: 'Executive Portrait',
+    id: 'portrait',
+    label: 'Official Portrait',
     badge: 'SHIV / FOUNDER & CEO',
     sub: 'SHIVAM GUPTA • @shivam',
-    primarySrc: '/images/ceo/shivam-gupta-ceo.jpg',
-    fallbackSrc: '/images/ceo/shivam-gupta-ceo.svg',
-    alt: 'Shivam Gupta — Founder and CEO of SHIV',
+    primarySrc: '/images/ceo/shivam-gupta-portrait.png',
+    alt: 'Shivam Gupta — Founder and CEO of SHIV (Official Portrait)',
   },
   {
-    id: 'architecture',
-    label: 'System Architecture',
-    badge: 'LEAD ARCHITECT',
-    sub: 'SHIV AI • SHIV-OS • DEV STACK',
-    primarySrc: '/images/ceo/shivam-gupta-working.jpg',
-    fallbackSrc: '/images/ceo/shivam-gupta-working.svg',
-    alt: 'Shivam Gupta leading technical architecture and product design at SHIV',
-  },
-  {
-    id: 'music',
-    label: 'Musicshiv (Artist)',
-    badge: 'CREATIVE & SONGWRITING',
-    sub: 'MUSICSHIV • HINDI INDIE-POP',
-    primarySrc: '/images/ceo/shivam-gupta-music.jpg',
-    fallbackSrc: '/images/ceo/shivam-gupta-music.svg',
-    alt: 'Shivam Gupta (Musicshiv) — Singer-Songwriter and Creator',
+    id: 'candid',
+    label: 'Candid & Lifestyle',
+    badge: 'FOUNDER & ARCHITECT',
+    sub: 'SHIVAM GUPTA • BURHAR, MP',
+    primarySrc: '/images/ceo/shivam-gupta-candid.jpg',
+    alt: 'Shivam Gupta — Founder and CEO of SHIV (Candid & Lifestyle)',
   },
 ];
 
 export default function CeoPageClient() {
   const [activePerspective, setActivePerspective] = useState<PhotoPerspective>(photoPerspectives[0]);
-  const [imageErrorMap, setImageErrorMap] = useState<Record<string, boolean>>({});
-
-  const handleImageError = (id: string) => {
-    setImageErrorMap((prev) => ({ ...prev, [id]: true }));
-  };
-
-  const currentImageSrc = imageErrorMap[activePerspective.id]
-    ? activePerspective.fallbackSrc
-    : activePerspective.primarySrc;
 
   return (
     <div className={styles.container}>
@@ -158,6 +137,18 @@ export default function CeoPageClient() {
               </a>
 
               <a
+                href="https://wa.me/916267686575?text=Hello%20Shivam,%20reaching%20out%20via%20SHIV%20CEO%20page."
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.secondaryBtn}
+                title="Direct WhatsApp"
+              >
+                <WhatsAppIcon size={16} />
+                <span>+91 62676 86575</span>
+                <ExternalLink size={13} />
+              </a>
+
+              <a
                 href="mailto:admin@shiv.com"
                 className={styles.secondaryBtn}
                 title="Direct Inquiries"
@@ -176,17 +167,20 @@ export default function CeoPageClient() {
             transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
           >
             <div className={styles.photoFrame}>
-              {/* Image with fallback handling */}
+              <div 
+                className={styles.photoBlurBg} 
+                style={{ backgroundImage: `url(${activePerspective.primarySrc})` }} 
+              />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 key={activePerspective.id}
-                src={currentImageSrc}
+                src={activePerspective.primarySrc}
                 alt={activePerspective.alt}
                 title={activePerspective.alt}
-                onError={() => handleImageError(activePerspective.id)}
                 loading="eager"
                 fetchPriority="high"
                 itemProp="image"
+                className={styles.photoMainImg}
               />
 
               <div className={styles.photoOverlayBadge}>
@@ -559,7 +553,7 @@ export default function CeoPageClient() {
 
             {/* Direct WhatsApp */}
             <a
-              href="https://wa.me/91626686575?text=Hello%20Shivam,%20reaching%20out%20via%20SHIV%20CEO%20page."
+              href="https://wa.me/916267686575?text=Hello%20Shivam,%20reaching%20out%20via%20SHIV%20CEO%20page."
               target="_blank"
               rel="noopener noreferrer"
               className={styles.socialCard}
@@ -570,7 +564,7 @@ export default function CeoPageClient() {
                 </div>
                 <div>
                   <h4 className={styles.socialName}>Direct WhatsApp</h4>
-                  <div className={styles.socialHandle}>+91 62668 65755</div>
+                  <div className={styles.socialHandle}>+91 62676 86575</div>
                 </div>
               </div>
               <div className={styles.socialAction}>

@@ -124,7 +124,7 @@ export async function submitServiceQuotation(payload: QuotationSubmissionData) {
     waText += `*Items Selected:* ${selectedServices.length} services\n`;
     waText += `*Lead Reference ID:* #${lead.id.slice(-6).toUpperCase()}`;
 
-    const waUrl = `https://wa.me/91626686575?text=${encodeURIComponent(waText)}`;
+    const waUrl = `https://wa.me/916267686575?text=${encodeURIComponent(waText)}`;
 
     return {
       success: true,

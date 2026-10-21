@@ -8,18 +8,18 @@ export default function WhatsAppFloating() {
   return (
     <div className={styles.floatingContainer}>
       <a
-        href="https://wa.me/91626686575?text=Hi%20SHIV,%20I'm%20reaching%20out%20from%20the%20SHIV%20Store."
+        href="https://wa.me/916267686575?text=Hi%20SHIV,%20I'm%20reaching%20out%20from%20the%20SHIV%20Store."
         target="_blank"
         rel="noopener noreferrer"
         className={styles.whatsappButton}
         aria-label="Chat with SHIV on WhatsApp"
-        title="Chat on WhatsApp"
+        title="Chat on WhatsApp (+91 62676 86575)"
       >
         <span className={styles.pulseRing} />
         <WhatsAppIcon size={26} />
       </a>
       <div className={styles.tooltip}>
-        Chat on WhatsApp (+91 626686575)
+        Chat on WhatsApp (+91 62676 86575)
       </div>
     </div>
   );

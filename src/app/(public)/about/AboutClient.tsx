@@ -101,15 +101,9 @@ export default function AboutClient() {
           <div className={styles.founderImage}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
-              src="/images/ceo/shivam-gupta-ceo.jpg" 
+              src="/images/ceo/shivam-gupta-portrait.png" 
               alt="Shivam Gupta - Founder and CEO of SHIV" 
               className={styles.founderImgTag}
-              onError={(e) => {
-                const target = e.currentTarget;
-                if (!target.src.endsWith('.svg')) {
-                  target.src = '/images/ceo/shivam-gupta-ceo.svg';
-                }
-              }}
             />
           </div>
           
@@ -130,13 +124,13 @@ export default function AboutClient() {
 
             <div className={styles.founderLinks}>
               <a
-                href="https://wa.me/916266865755"
+                href="https://wa.me/916267686575"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${styles.founderLink} ${styles.founderWhatsApp}`}
-                title="WhatsApp: +91 62668 65755"
+                title="WhatsApp: +91 62676 86575"
               >
-                <WhatsAppIcon size={16} /> WhatsApp: +91 62668 65755
+                <WhatsAppIcon size={16} /> WhatsApp: +91 62676 86575
               </a>
               <a
                 href="mailto:admin@shiv.com"

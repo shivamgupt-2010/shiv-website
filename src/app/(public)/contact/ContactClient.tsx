@@ -130,7 +130,7 @@ export default function ContactClient() {
         {/* Direct Channels */}
         <div className={styles.channelsGrid}>
           <a
-            href="https://wa.me/91626686575"
+            href="https://wa.me/916267686575"
             target="_blank"
             rel="noopener noreferrer"
             className={`${styles.channelCard} ${styles.channelWhatsApp}`}
@@ -140,12 +140,12 @@ export default function ContactClient() {
             </div>
             <div className={styles.channelInfo}>
               <span className={styles.channelLabel}>WhatsApp</span>
-              <span className={styles.channelValue}>+91 626686575</span>
+              <span className={styles.channelValue}>+91 62676 86575</span>
             </div>
           </a>
 
           <a
-            href="mailto:shivamgupta@gmail.com"
+            href="mailto:admin@shiv.com"
             className={`${styles.channelCard} ${styles.channelEmail}`}
           >
             <div className={styles.channelIcon}>
@@ -153,7 +153,7 @@ export default function ContactClient() {
             </div>
             <div className={styles.channelInfo}>
               <span className={styles.channelLabel}>Email</span>
-              <span className={styles.channelValue}>shivamgupta@gmail.com</span>
+              <span className={styles.channelValue}>admin@shiv.com</span>
             </div>
           </a>
 

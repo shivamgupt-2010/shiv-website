@@ -197,7 +197,7 @@ export default function SoftwarePageClient({ software, templates }: SoftwarePage
                 </p>
               </div>
               <a
-                href="https://wa.me/91626686575?text=Hi%20SHIV,%20I%20am%20interested%20in%20customizing%20a%20website%20template%20for%20my%20business."
+                href="https://wa.me/916267686575?text=Hi%20SHIV,%20I%20am%20interested%20in%20customizing%20a%20website%20template%20for%20my%20business."
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.customWaBtn}
@@ -475,7 +475,7 @@ export default function SoftwarePageClient({ software, templates }: SoftwarePage
                     )}
 
                     <a
-                      href="https://wa.me/91626686575?text=Hi%20SHIV,%20I%20have%20an%20enquiry%20regarding%20software%20downloads."
+                      href="https://wa.me/916267686575?text=Hi%20SHIV,%20I%20have%20an%20enquiry%20regarding%20software%20downloads."
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ fontSize: '0.75rem', color: '#94a3b8' }}
@@ -507,12 +507,12 @@ export default function SoftwarePageClient({ software, templates }: SoftwarePage
 
             <div className={styles.policyBtns}>
               <a
-                href="https://wa.me/91626686575?text=Hi%20SHIV,%20I%20need%20developer%20support%20for%20a%20template%20purchase."
+                href="https://wa.me/916267686575?text=Hi%20SHIV,%20I%20need%20developer%20support%20for%20a%20template%20purchase."
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.policyWaLink}
               >
-                Developer WhatsApp: 626686575
+                Developer WhatsApp: +91 62676 86575
               </a>
               <Link
                 href="/cart"

@@ -116,7 +116,7 @@ export default function HomeClient({ featuredProducts, categories, bundles }: Ho
     },
     {
       q: 'What if I need custom modifications or turnkey deployment?',
-      a: 'SHIV provides dedicated customization and development services. You can select custom scoping from our Client Services page or chat directly with our engineering team on WhatsApp (626686575).',
+      a: 'SHIV provides dedicated customization and development services. You can select custom scoping from our Client Services page or chat directly with our engineering team on WhatsApp (6267686575).',
     },
   ];
 

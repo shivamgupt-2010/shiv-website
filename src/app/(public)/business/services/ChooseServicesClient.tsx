@@ -167,7 +167,7 @@ export default function ChooseServicesClient({
       msg += `• ${d}\n`;
     });
     msg += `\nPlease let me know the onboarding steps and timeline!`;
-    return `https://wa.me/91626686575?text=${encodeURIComponent(msg)}`;
+    return `https://wa.me/916267686575?text=${encodeURIComponent(msg)}`;
   };
 
   // =========================================
@@ -705,7 +705,7 @@ export default function ChooseServicesClient({
                           className={styles.pkgWaInquireBtn}
                         >
                           <MessageSquare size={14} />
-                          <span>WhatsApp Inquiry (+91 626686575)</span>
+                          <span>WhatsApp Inquiry (+91 6267686575)</span>
                         </a>
                       </div>
                     </div>
@@ -1004,7 +1004,7 @@ export default function ChooseServicesClient({
                   style={{ width: '100%', padding: '1rem', fontSize: '1rem' }}
                 >
                   <MessageSquare size={18} />
-                  <span>Connect with Founder on WhatsApp (+91 626686575)</span>
+                  <span>Connect with Founder on WhatsApp (+91 6267686575)</span>
                 </a>
               </div>
             ) : (
@@ -1085,7 +1085,7 @@ export default function ChooseServicesClient({
                       type="tel"
                       required
                       className={styles.formInput}
-                      placeholder="e.g. 626686575"
+                      placeholder="e.g. 6267686575"
                       value={customScope.clientPhone}
                       onChange={(e) => setCustomScope({ ...customScope, clientPhone: e.target.value })}
                     />
@@ -1099,7 +1099,7 @@ export default function ChooseServicesClient({
                       type="email"
                       required
                       className={styles.formInput}
-                      placeholder="e.g. shivamgupta@gmail.com"
+                      placeholder="e.g. admin@shiv.com"
                       value={customScope.clientEmail}
                       onChange={(e) => setCustomScope({ ...customScope, clientEmail: e.target.value })}
                     />
@@ -1140,13 +1140,13 @@ export default function ChooseServicesClient({
                   </button>
 
                   <a
-                    href="https://wa.me/91626686575?text=Hi%20SHIV%2C%20I%20have%20a%20custom%20enterprise%20project%20inquiry%20and%20would%20like%20to%20discuss%20architecture%20and%20scoping."
+                    href="https://wa.me/916267686575?text=Hi%20SHIV%2C%20I%20have%20a%20custom%20enterprise%20project%20inquiry%20and%20would%20like%20to%20discuss%20architecture%20and%20scoping."
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.waSubmitBtn}
                   >
                     <MessageSquare size={16} />
-                    <span>Discuss Directly on WhatsApp (+91 626686575)</span>
+                    <span>Discuss Directly on WhatsApp (+91 6267686575)</span>
                   </a>
                 </div>
               </form>
@@ -1291,7 +1291,7 @@ export default function ChooseServicesClient({
                         style={{ padding: '1rem', fontSize: '1rem' }}
                       >
                         <MessageSquare size={18} />
-                        <span>Connect on WhatsApp (+91 626686575)</span>
+                        <span>Connect on WhatsApp (+91 6267686575)</span>
                       </a>
                       <button
                         type="button"
@@ -1414,7 +1414,7 @@ export default function ChooseServicesClient({
                             type="tel"
                             required
                             className={styles.formInput}
-                            placeholder="e.g. 626686575"
+                            placeholder="e.g. 6267686575"
                             value={customerPhone}
                             onChange={(e) => setCustomerPhone(e.target.value)}
                           />

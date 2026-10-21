@@ -58,14 +58,14 @@ export default function Footer() {
               </span>
             </a>
             <a
-              href="https://wa.me/91626686575"
+              href="https://wa.me/916267686575"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.link}
-              title="WhatsApp"
+              title="WhatsApp: +91 62676 86575"
             >
               <span className={styles.linkWithIcon}>
-                <WhatsAppIcon size={16} /> WhatsApp: 626686575
+                <WhatsAppIcon size={16} /> WhatsApp: 6267686575
               </span>
             </a>
             <a

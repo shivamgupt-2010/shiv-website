@@ -7,7 +7,8 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getSiteUrl();
   const canonicalUrl = `${baseUrl}/ceo`;
-  const primaryImageUrl = `${baseUrl}/images/ceo/shivam-gupta-ceo.jpg`;
+  const primaryImageUrl = `${baseUrl}/images/ceo/shivam-gupta-portrait.png`;
+  const candidImageUrl = `${baseUrl}/images/ceo/shivam-gupta-candid.jpg`;
 
   return {
     title: 'Shivam Gupta — Founder & CEO of SHIV | Official Profile',
@@ -44,9 +45,15 @@ export async function generateMetadata(): Promise<Metadata> {
       images: [
         {
           url: primaryImageUrl,
-          width: 1200,
-          height: 630,
+          width: 576,
+          height: 1024,
           alt: 'Shivam Gupta — Founder & CEO of SHIV',
+        },
+        {
+          url: candidImageUrl,
+          width: 768,
+          height: 1024,
+          alt: 'Shivam Gupta — Founder & CEO of SHIV (Candid & Lifestyle)',
         },
       ],
       type: 'profile',
@@ -97,16 +104,17 @@ export default function CeoPage() {
           ],
         },
         url: `${baseUrl}/ceo`,
-        image: {
-          '@type': 'ImageObject',
-          url: `${baseUrl}/images/ceo/shivam-gupta-ceo.jpg`,
-          caption: 'Shivam Gupta — Founder & CEO of SHIV',
-        },
+        image: [
+          `${baseUrl}/images/ceo/shivam-gupta-portrait.png`,
+          `${baseUrl}/images/ceo/shivam-gupta-candid.jpg`,
+        ],
+        telephone: '+91-6267686575',
         description:
           'Shivam Gupta is the Founder and Chief Executive Officer of SHIV. He leads technical architecture, autonomous AI agents, operating system tools, and consumer digital products.',
         sameAs: [
           'https://www.youtube.com/@shivam13gupta',
           'https://www.instagram.com/shivam_gupta0310',
+          'https://wa.me/916267686575',
           `${baseUrl}/ceo`,
         ],
         knowsAbout: [
